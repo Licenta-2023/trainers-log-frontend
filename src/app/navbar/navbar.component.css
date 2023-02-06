@@ -1,0 +1,27 @@
+.nav-item.nav-link.active  {
+  background: gray;
+  border-radius: 10px;
+  transition: none;
+}
+.nav-item.nav-link:hover  {
+  background: gray;
+  border-radius: 10px;
+}
+
+.nav-item.nav-link  {;
+  border-radius: 10px;
+  margin: 0 5px;
+}
+
+@media(max-width: 992px) {
+  .navbar-nav, .container-fluid {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-item.nav-link  {;
+    width: 200px;
+    text-align: center;
+    margin: 5px;
+  }
+}

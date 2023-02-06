@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-xs-2 col-md-4"></div>
+  <div class="col-xs-8 col-md-4">
+    <form [formGroup]="logInForm" (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+        >
+        <span class="text-danger" *ngIf="logInForm.controls.email.invalid && logInForm.controls.email.touched"> Invalid email! </span>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+        >
+        <span class="text-danger" *ngIf="logInForm.controls.password.invalid && logInForm.controls.password.touched"> Invalid password! </span>
+      </div>
+      <button class="btn btn-primary" type="submit">Log in</button>
+    </form>
+  </div>
+</div>

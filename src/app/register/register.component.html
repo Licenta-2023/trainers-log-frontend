@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-md-4 col-xs-2"></div>
+  <div class="col-xs-8 col-md-4">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+        >
+        <span class="text-danger" *ngIf="registerForm.controls.email.invalid && registerForm.controls.email.touched"> Invalid email! </span>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          id="firstName"
+          formControlName="firstName"
+          class="form-control"
+        >
+        <span class="text-danger" *ngIf="registerForm.controls.firstName.invalid && registerForm.controls.firstName.touched"> Invalid first name! </span>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          formControlName="lastName"
+          class="form-control"
+        >
+        <span class="text-danger" *ngIf="registerForm.controls.lastName.invalid && registerForm.controls.lastName.touched"> Invalid last name! </span>
+      </div>
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input
+          type="date"
+          id="dob"
+          formControlName="dob"
+          class="form-control"
+        >
+        <span class="text-danger" *ngIf="registerForm.controls.dob.invalid && registerForm.controls.dob.touched"> Invalid Date of Birth! </span>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+        >
+        <span class="text-danger" *ngIf="registerForm.controls.password.invalid && registerForm.controls.password.touched"> Invalid password! </span>
+      </div>
+      <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+  </div>
+</div>
