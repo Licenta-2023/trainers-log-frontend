@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy{
-  isMenuCollapsed: boolean = false;
+  isMenuCollapsed: boolean = true;
   loggedUserSubscription: Subscription
   isLogged: boolean = false;
 

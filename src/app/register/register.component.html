@@ -1,58 +1,85 @@
-<div class="row">
-  <div class="col-md-4 col-xs-2"></div>
-  <div class="col-xs-8 col-md-4">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          class="form-control"
-        >
-        <span class="text-danger" *ngIf="registerForm.controls.email.invalid && registerForm.controls.email.touched"> Invalid email! </span>
+<form class="vh-100 py-5 bg" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-90">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div class="mb-md-5 mt-md-4 pb-5">
+
+              <h2 class="fw-bold mb-2">Register</h2>
+              <p class="text-white-50 mb-5">Please fill in the fields below!</p>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="form-control form-control-lg"
+                    formControlName="firstName"
+                  />
+                  <div class="text-danger text-start" *ngIf="registerForm.controls.firstName.invalid && registerForm.controls.firstName.dirty">Invalid First Name!</div>
+                </div>
+                <div class="flex-row mx-2">
+                  <label class="form-label p-0 mx-0" for="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    class="form-control form-control-lg"
+                    formControlName="lastName"
+                  />
+                  <div class="text-danger text-start" *ngIf="registerForm.controls.lastName.invalid && registerForm.controls.lastName.dirty">Invalid Last Name!</div>
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control form-control-lg"
+                    formControlName="email"
+                  />
+                  <div class="text-danger text-start" *ngIf="registerForm.controls.email.invalid && registerForm.controls.email.dirty">Invalid Email!</div>
+                </div>
+                <div class="flex-row mx-2">
+                  <label class="form-label p-0 mx-0" for="dob">Date of Birth</label>
+                  <input
+                    type="date"
+                    id="dob"
+                    class="form-control form-control-lg"
+                    formControlName="dob"
+                  />
+                  <div class="text-danger text-start" *ngIf="registerForm.controls.dob.invalid && registerForm.controls.dob.dirty">Invalid Date of Birth!</div>
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4">
+                <label class="form-label" for="typePasswordX">Password</label>
+                <input
+                  type="password" id="typePasswordX"
+                  class="form-control form-control-lg"
+                  formControlName="password"
+                />
+                <div class="text-danger text-start" *ngIf="registerForm.controls.password.invalid && registerForm.controls.password.dirty">Invalid Password!</div>
+              </div>
+
+              <!--              <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>-->
+
+              <button class="btn btn-outline-light btn-lg px-5" type="submit">Register now</button>
+
+            </div>
+
+            <div>
+              <p class="">Already have an account? <a [routerLink]="['/log-in']" class="text-white-50 fw-bold">Sign in!</a>
+              </p>
+            </div>
+
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input
-          type="text"
-          id="firstName"
-          formControlName="firstName"
-          class="form-control"
-        >
-        <span class="text-danger" *ngIf="registerForm.controls.firstName.invalid && registerForm.controls.firstName.touched"> Invalid first name! </span>
-      </div>
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input
-          type="text"
-          id="lastName"
-          formControlName="lastName"
-          class="form-control"
-        >
-        <span class="text-danger" *ngIf="registerForm.controls.lastName.invalid && registerForm.controls.lastName.touched"> Invalid last name! </span>
-      </div>
-      <div class="form-group">
-        <label for="dob">Date of Birth</label>
-        <input
-          type="date"
-          id="dob"
-          formControlName="dob"
-          class="form-control"
-        >
-        <span class="text-danger" *ngIf="registerForm.controls.dob.invalid && registerForm.controls.dob.touched"> Invalid Date of Birth! </span>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          class="form-control"
-        >
-        <span class="text-danger" *ngIf="registerForm.controls.password.invalid && registerForm.controls.password.touched"> Invalid password! </span>
-      </div>
-      <button class="btn btn-primary" type="submit">Register</button>
-    </form>
+    </div>
   </div>
-</div>
+</form>

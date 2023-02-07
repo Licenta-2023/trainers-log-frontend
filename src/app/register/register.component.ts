@@ -38,7 +38,10 @@ export class RegisterComponent implements OnInit {
       lastName: this.registerForm.value.lastName,
       dob: formattedDate,
     }).subscribe({
-      next: () => { this.router.navigate(['/log-in']) }
+      next: () => {
+        this.registerForm.reset();
+        this.router.navigate(['/log-in'])
+      }
     })
   }
 }

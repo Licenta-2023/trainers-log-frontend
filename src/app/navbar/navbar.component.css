@@ -1,10 +1,10 @@
 .nav-item.nav-link.active  {
-  background: gray;
+  background: #5c5e60;
   border-radius: 10px;
   transition: none;
 }
 .nav-item.nav-link:hover  {
-  background: gray;
+  background: #a4a4a4;
   border-radius: 10px;
 }
 
