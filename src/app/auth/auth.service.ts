@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {LoginUser, RegisterUser, UserData} from "../shared/models";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -17,6 +17,15 @@ export class AuthService {
 
   logIn(loginData: LoginUser) {
     return this.http.post<UserData>(environment.url + 'api/user/login', loginData);
+  }
+
+  refreshToken() {
+    const refreshToken = this.loggedUserData.getValue().refresh_token;
+    return this.http.post<UserData>(environment.url + 'api/user/refreshToken', {}, {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${refreshToken}`
+      })
+    });
   }
 
   register(registerData: RegisterUser) {

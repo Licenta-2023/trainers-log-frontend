@@ -16,7 +16,6 @@ export class UsersListComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.getUsersSubscription = this.userService.getUsers().subscribe((users: any[]) => {
-      console.log(users);
       this.users = users;
     })
   }
