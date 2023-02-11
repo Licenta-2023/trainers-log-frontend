@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/']">Trainers  Log</a>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
+      <div class="navbar-nav mr-auto">
+        <a
+          class="nav-item nav-link"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
+          [routerLink]="['/']"
+          (click)="isMenuCollapsed = true">Home</a>
+        <a
+          class="nav-item nav-link"
+          routerLinkActive="active"
+          *ngIf="isLogged"
+          [routerLink]="['/users']"
+          (click)="isMenuCollapsed = true">Users</a>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <a
+          class="nav-item nav-link"
+          routerLinkActive="active"
+          *ngIf="!isLogged"
+          [routerLink]="['/log-in']"
+          (click)="isMenuCollapsed = true">Login</a>
+        <a
+          class="nav-item nav-link"
+          routerLinkActive="active"
+          *ngIf="!isLogged"
+          [routerLink]="['/register']"
+          (click)="isMenuCollapsed = true">Register</a>
+        <a
+          class="nav-item nav-link"
+          *ngIf="isLogged"
+          (click)="onLogOut(); isMenuCollapsed = true" [style]="{cursor: 'pointer'}">Log Out</a>
+      </div>
+    </div>
+  </div>
+</nav>
