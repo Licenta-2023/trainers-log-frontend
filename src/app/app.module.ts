@@ -12,6 +12,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import {AuthInterceptor} from "./auth/auth.interceptor";
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
+import { CalendarComponent } from './calendar/calendar.component';
+import { CalendarEntryComponent } from './calendar/calendar-entry/calendar-entry.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
     LogInComponent,
     RegisterComponent,
     NavbarComponent,
-    UsersListComponent
+    UsersListComponent,
+    CalendarComponent,
+    CalendarEntryComponent
   ],
   imports: [
     BrowserModule,

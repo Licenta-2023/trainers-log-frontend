@@ -5,12 +5,14 @@ import {RegisterComponent} from "./register/register.component";
 import {LogInComponent} from "./log-in/log-in.component";
 import {UsersListComponent} from "./users-list/users-list.component";
 import {AuthGuard} from "./auth/auth.guard";
+import {CalendarComponent} from "./calendar/calendar.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent, pathMatch: 'full'},
   {path: 'register', component: RegisterComponent},
   {path: 'log-in', component: LogInComponent},
   {path: 'users', component: UsersListComponent, canActivate: [AuthGuard]},
+  {path: 'calendar', component: CalendarComponent}
 ];
 
 @NgModule({

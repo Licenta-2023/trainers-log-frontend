@@ -1,0 +1,65 @@
+.bg {
+  /* The image used */
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),url("../../assets/login-background.jpg");
+  height: 100%;
+
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 50px auto;
+  background-color: gray;
+  align-items: baseline;
+  justify-content: center;
+  padding: 20px 0;
+  border-radius: 5px;
+}
+
+.calendar-entry {
+  width: 13%;
+  padding: 35px 0;
+  background-color: white;
+  border: 1px solid black;
+  margin: 3px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .calendar{
+    width: 75%;
+  }
+  .calendar-entry {
+    width: 80%;
+  }
+}
+
+.dateInfo {
+  color: lightgray;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-left: 30px;
+  font-size: 4vw;
+  width: 60%;
+  margin: 10px auto;
+  background: rgba(0,0,0,0.7);
+  border-radius: 10px;
+}
+
+.dateInfo span {
+  /*margin: 0 20px;*/
+}
+
+.changeMonthButton {
+  background: transparent;
+  border: transparent;
+  color: lightgray;
+}

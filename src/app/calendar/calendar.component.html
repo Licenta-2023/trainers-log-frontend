@@ -1,0 +1,24 @@
+<div class="bg">
+  <div class="container vh-100 py-5">
+    <div class="dateInfo">
+      <div class="" style="">
+        <button class="changeMonthButton" (click)="onDecrementMonth()">&lt;</button>
+        <button class="changeMonthButton" (click)="onIncrementMonth()">&gt;</button>
+      </div>
+      <div class="" style="">
+        <span>{{selectedMonth}} </span>
+        <span>{{selectedYear}}</span>
+      </div>
+
+    </div>
+
+    <div class="calendar">
+      <div class="calendar-entry" *ngFor="let entry of entries; let i = index">
+        {{ i+1 }} - {{ selectedMonthShort }}
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>
