@@ -1,14 +1,9 @@
 <div class="bg">
   <div class="container vh-100 py-5">
     <div class="dateInfo">
-      <div class="" style="">
-        <button class="changeMonthButton" (click)="onDecrementMonth()">&lt;</button>
-        <button class="changeMonthButton" (click)="onIncrementMonth()">&gt;</button>
-      </div>
-      <div class="" style="">
-        <span>{{selectedMonth}} </span>
-        <span>{{selectedYear}}</span>
-      </div>
+      <div><button class="changeMonthButton" (click)="onDecrementMonth()">&lt;</button></div>
+      <span>{{selectedMonth}} {{selectedYear}}</span>
+      <div><button class="changeMonthButton" (click)="onIncrementMonth()">&gt;</button></div>
     </div>
     <div>
       <select name="trainers" id="trainers" [(ngModel)]="selectedTrainer" (change)="onTrainerChange(selectedTrainer)">
@@ -17,9 +12,7 @@
       </select>
     </div>
     <div class="calendar" *ngIf="selectedTrainer && isCalendarLoaded">
-      <div class="calendar-entry" *ngFor="let entry of entries; let i = index">
-        {{ i+1 }} - {{ selectedMonthShort }}
-      </div>
+      <app-calendar-entry class="calendar-entry" *ngFor="let entry of entries; let i = index" [date]="entry"></app-calendar-entry>
     </div>
     <br>
     <br>

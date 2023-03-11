@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {TrainerFullNameAndUsername} from "../shared/models";
+import {Trainer, TrainerFullNameAndUsername} from "../shared/models";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -11,5 +11,9 @@ export class TrainerService {
 
   getTrainersFullnameAndUsername() {
     return this.http.get<TrainerFullNameAndUsername[]>(environment.url + 'api/trainer/usernames');
+  }
+
+  getTrainerFullInfo(username: string) {
+    return this.http.get<Trainer>(environment.url + `api/trainer/${username}`);
   }
 }

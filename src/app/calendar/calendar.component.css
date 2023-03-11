@@ -45,21 +45,21 @@
   color: lightgray;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  padding-left: 30px;
+  flex-direction: row;
+  justify-content: space-around;
   font-size: 4vw;
-  width: 60%;
+  width: 50%;
   margin: 10px auto;
   background: rgba(0,0,0,0.7);
   border-radius: 10px;
-}
-
-.dateInfo span {
-  /*margin: 0 20px;*/
 }
 
 .changeMonthButton {
   background: transparent;
   border: transparent;
   color: lightgray;
+}
+
+.changeMonthButton:hover {
+  color: #32323d;
 }

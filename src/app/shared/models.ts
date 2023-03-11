@@ -20,3 +20,18 @@ export interface TrainerFullNameAndUsername {
   fullName: string;
   username: string
 }
+
+export interface Trainer {
+  user: User;
+  startOfDay: string;
+  endOfDay: string;
+  totalClientsPerReservation: number;
+}
+
+export interface User {
+  username: string;
+  firstName: string;
+  lastName: string;
+  dob: Date;
+
+}

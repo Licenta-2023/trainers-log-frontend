@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as moment from "moment";
 import {Moment} from "moment";
-import {TrainerFullNameAndUsername} from "../shared/models";
+import {Trainer, TrainerFullNameAndUsername} from "../shared/models";
 import {TrainerService} from "../services/trainer.service";
 import {ReservationService} from "../services/reservation.service";
 
@@ -21,6 +21,7 @@ export class CalendarComponent implements OnInit{
 
   trainers: TrainerFullNameAndUsername[] = [];
   selectedTrainer: TrainerFullNameAndUsername = {} as TrainerFullNameAndUsername;
+  selectedTrainerFullInfo: Trainer;
   isCalendarLoaded: boolean = false;
 
   constructor(private trainerService: TrainerService, private reservationService: ReservationService) {
@@ -37,21 +38,26 @@ export class CalendarComponent implements OnInit{
     this.selectedMonthShort = this.selectedDate.format("MMM");
     this.selectedMonthNumber = +this.selectedDate.format("M");
     this.selectedYear = this.selectedDate.year();
-    this.entries = Array(this.selectedDate.daysInMonth()).map(() => 0)
+    this.entries = Array(this.selectedDate.daysInMonth()).fill({}).map((elem, index) => {
+      return `${index + 1} - ${this.selectedMonthShort}`;
+    });
   }
 
   onDecrementMonth() {
     this.selectedDate.subtract(1, 'month');
     this.calculateDateVariables();
+    this.loadSelectedTrainerCalendarForSelectedMonth();
   }
 
   onIncrementMonth() {
     this.selectedDate.add(1, 'month');
     this.calculateDateVariables();
+    this.loadSelectedTrainerCalendarForSelectedMonth();
   }
 
   onTrainerChange(selectedTrainer: TrainerFullNameAndUsername) {
     console.log(selectedTrainer);
+    this.loadTrainerFullInfo();
     this.loadSelectedTrainerCalendarForSelectedMonth();
   }
 
@@ -64,6 +70,14 @@ export class CalendarComponent implements OnInit{
   private loadSelectedTrainerCalendarForSelectedMonth() {
     this.reservationService.getTrainerReservationsByMonth(this.selectedTrainer.username, this.selectedMonthNumber).subscribe(data => {
       console.log(data);
+      this.isCalendarLoaded = true;
+    });
+  }
+
+  private loadTrainerFullInfo() {
+    this.trainerService.getTrainerFullInfo(this.selectedTrainer.username).subscribe(trainer => {
+      this.selectedTrainerFullInfo = trainer;
+      console.log(this.selectedTrainerFullInfo);
     });
   }
 }

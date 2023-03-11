@@ -16,6 +16,7 @@
           class="nav-item nav-link"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: true}"
+          *ngIf="isLogged"
           [routerLink]="['/calendar']"
           (click)="isMenuCollapsed = true">Calendar</a>
         <a
