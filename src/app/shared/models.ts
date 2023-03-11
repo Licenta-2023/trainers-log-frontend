@@ -15,3 +15,8 @@ export interface UserData {
   access_token: string;
   refresh_token: string;
 }
+
+export interface TrainerFullNameAndUsername {
+  fullName: string;
+  username: string
+}

@@ -9,10 +9,14 @@
         <span>{{selectedMonth}} </span>
         <span>{{selectedYear}}</span>
       </div>
-
     </div>
-
-    <div class="calendar">
+    <div>
+      <select name="trainers" id="trainers" [(ngModel)]="selectedTrainer" (change)="onTrainerChange(selectedTrainer)">
+        <option [value]="selectedTrainer" disabled selected>Select an option</option>
+        <option *ngFor="let trainer of trainers" [ngValue]="trainer">{{ trainer.fullName }}</option>
+      </select>
+    </div>
+    <div class="calendar" *ngIf="selectedTrainer && isCalendarLoaded">
       <div class="calendar-entry" *ngFor="let entry of entries; let i = index">
         {{ i+1 }} - {{ selectedMonthShort }}
       </div>
