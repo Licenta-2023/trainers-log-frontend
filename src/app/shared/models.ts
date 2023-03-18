@@ -33,5 +33,26 @@ export interface User {
   firstName: string;
   lastName: string;
   dob: Date;
+}
 
+export enum CalendarEntryStatus {
+  AVAILABLE = "AVAILABLE",
+  FULL = "FULL"
+}
+
+export interface CalendarEntry {
+  date: string;
+  status: CalendarEntryStatus
+}
+
+export enum ReservationType {
+  BLOCKER,
+  TRAINING
+}
+
+export interface Reservation {
+  client: string;
+  trainer: string;
+  timeIntervalBegin: string;
+  reservationType: ReservationType;
 }

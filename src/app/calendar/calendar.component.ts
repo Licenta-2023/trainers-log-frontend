@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as moment from "moment";
 import {Moment} from "moment";
-import {Trainer, TrainerFullNameAndUsername} from "../shared/models";
+import {CalendarEntry, CalendarEntryStatus, Trainer, TrainerFullNameAndUsername} from "../shared/models";
 import {TrainerService} from "../services/trainer.service";
 import {ReservationService} from "../services/reservation.service";
 
@@ -17,7 +17,7 @@ export class CalendarComponent implements OnInit{
   selectedMonthShort: string;
   selectedMonthNumber: number;
   selectedYear: number;
-  entries: any;
+  entries: CalendarEntry[];
 
   trainers: TrainerFullNameAndUsername[] = [];
   selectedTrainer: TrainerFullNameAndUsername = {} as TrainerFullNameAndUsername;
@@ -29,8 +29,8 @@ export class CalendarComponent implements OnInit{
 
   ngOnInit(): void {
     this.selectedDate = moment();
-    this.calculateDateVariables();
     this.loadTrainers();
+    this.calculateDateVariables();
   }
 
   calculateDateVariables() {
@@ -39,26 +39,29 @@ export class CalendarComponent implements OnInit{
     this.selectedMonthNumber = +this.selectedDate.format("M");
     this.selectedYear = this.selectedDate.year();
     this.entries = Array(this.selectedDate.daysInMonth()).fill({}).map((elem, index) => {
-      return `${index + 1} - ${this.selectedMonthShort}`;
+      return { date: `${index + 1} - ${this.selectedMonthShort}`, status: CalendarEntryStatus.AVAILABLE};
     });
+    console.log(this.selectedTrainer);
   }
 
   onDecrementMonth() {
     this.selectedDate.subtract(1, 'month');
     this.calculateDateVariables();
-    this.loadSelectedTrainerCalendarForSelectedMonth();
+    if(this.selectedTrainer.username) {
+      this.loadSelectedTrainerCalendarForSelectedMonth();
+    }
   }
 
   onIncrementMonth() {
     this.selectedDate.add(1, 'month');
     this.calculateDateVariables();
-    this.loadSelectedTrainerCalendarForSelectedMonth();
+    if(this.selectedTrainer.username) {
+      this.loadSelectedTrainerCalendarForSelectedMonth();
+    }
   }
 
-  onTrainerChange(selectedTrainer: TrainerFullNameAndUsername) {
-    console.log(selectedTrainer);
+  onTrainerChange() {
     this.loadTrainerFullInfo();
-    this.loadSelectedTrainerCalendarForSelectedMonth();
   }
 
   private loadTrainers() {
@@ -68,16 +71,31 @@ export class CalendarComponent implements OnInit{
   }
 
   private loadSelectedTrainerCalendarForSelectedMonth() {
-    this.reservationService.getTrainerReservationsByMonth(this.selectedTrainer.username, this.selectedMonthNumber).subscribe(data => {
+    this.reservationService.getTrainerReservationsByMonth(this.selectedTrainer.username, this.selectedYear, this.selectedMonthNumber).subscribe(data => {
       console.log(data);
-      this.isCalendarLoaded = true;
+      const reservationsByDate = data.reduce((acc, reservation) => {
+        const date = reservation.timeIntervalBegin.split(' ')[0];
+        acc[date] = acc[date] ? acc[date] + 1 : 1;
+        return acc;
+      }, {})
+      this.setAvailabilityForEachDay(reservationsByDate);
     });
   }
 
   private loadTrainerFullInfo() {
     this.trainerService.getTrainerFullInfo(this.selectedTrainer.username).subscribe(trainer => {
       this.selectedTrainerFullInfo = trainer;
-      console.log(this.selectedTrainerFullInfo);
+      this.loadSelectedTrainerCalendarForSelectedMonth();
     });
+  }
+
+  private setAvailabilityForEachDay(reservationsByDate: object) {
+    Object.entries(reservationsByDate).forEach(([date, nrOfReservations]) => {
+      const index = +date.split('-')[0] - 1;
+      if (nrOfReservations === this.trainerService.getMaxReservationSlotsForTrainer(this.selectedTrainerFullInfo)) {
+        this.entries[index].status = CalendarEntryStatus.FULL;
+      }
+    });
+    this.isCalendarLoaded = true;
   }
 }

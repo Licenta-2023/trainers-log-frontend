@@ -63,3 +63,13 @@
 .changeMonthButton:hover {
   color: #32323d;
 }
+
+.full {
+  background-color: red;
+  cursor: default;
+}
+
+.available {
+  background-color: lawngreen;
+  cursor: pointer;
+}

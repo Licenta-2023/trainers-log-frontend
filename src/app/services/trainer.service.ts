@@ -16,4 +16,11 @@ export class TrainerService {
   getTrainerFullInfo(username: string) {
     return this.http.get<Trainer>(environment.url + `api/trainer/${username}`);
   }
+
+  getMaxReservationSlotsForTrainer(trainer: Trainer): number {
+    const startHour = +trainer.startOfDay.split(':')[0];
+    const endHour = +trainer.endOfDay.split(':')[0];
+    const totalHours = endHour - startHour;
+    return totalHours * trainer.totalClientsPerReservation;
+  }
 }

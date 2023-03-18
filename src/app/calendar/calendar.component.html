@@ -6,13 +6,13 @@
       <div><button class="changeMonthButton" (click)="onIncrementMonth()">&gt;</button></div>
     </div>
     <div>
-      <select name="trainers" id="trainers" [(ngModel)]="selectedTrainer" (change)="onTrainerChange(selectedTrainer)">
+      <select name="trainers" id="trainers" [(ngModel)]="selectedTrainer" (change)="onTrainerChange()">
         <option [value]="selectedTrainer" disabled selected>Select an option</option>
         <option *ngFor="let trainer of trainers" [ngValue]="trainer">{{ trainer.fullName }}</option>
       </select>
     </div>
-    <div class="calendar" *ngIf="selectedTrainer && isCalendarLoaded">
-      <app-calendar-entry class="calendar-entry" *ngFor="let entry of entries; let i = index" [date]="entry"></app-calendar-entry>
+    <div class="calendar" *ngIf="selectedTrainer.username && isCalendarLoaded">
+      <app-calendar-entry class="calendar-entry" *ngFor="let entry of entries" [date]="entry.date" [ngClass]="entry.status === 'FULL' ? 'full' : 'available'"></app-calendar-entry>
     </div>
     <br>
     <br>
