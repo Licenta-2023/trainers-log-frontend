@@ -39,6 +39,10 @@
   .calendar-entry {
     width: 80%;
   }
+
+  .reservation-modal {
+    width: 50%
+  }
 }
 
 .dateInfo {
@@ -69,7 +73,47 @@
   cursor: default;
 }
 
+.busy {
+  background-color: orange;
+  cursor: pointer;
+}
+
 .available {
   background-color: lawngreen;
   cursor: pointer;
 }
+
+p {
+  font-family: Lato, serif;
+}
+
+dialog {
+  background-color: #5c5e60;
+  color: white;
+  border-color: transparent;
+  overflow: hidden;
+  border-radius: 20px;
+  height: 20%;
+  width: 30%;
+}
+
+dialog div {
+  margin: 10px;
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0, 0.7);
+}
+
+.reservation-modal {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.reservation-modal-button {
+  margin: 5px;
+}
+

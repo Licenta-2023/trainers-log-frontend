@@ -36,8 +36,9 @@ export interface User {
 }
 
 export enum CalendarEntryStatus {
-  AVAILABLE = "AVAILABLE",
-  FULL = "FULL"
+  AVAILABLE = "available",
+  BUSY = "busy",
+  FULL = "full"
 }
 
 export interface CalendarEntry {

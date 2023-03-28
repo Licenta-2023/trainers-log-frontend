@@ -4,6 +4,7 @@ import {Moment} from "moment";
 import {CalendarEntry, CalendarEntryStatus, Trainer, TrainerFullNameAndUsername} from "../shared/models";
 import {TrainerService} from "../services/trainer.service";
 import {ReservationService} from "../services/reservation.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-calendar',
@@ -13,6 +14,7 @@ import {ReservationService} from "../services/reservation.service";
 export class CalendarComponent implements OnInit{
 
   selectedDate: Moment;
+  selectedDay: string;
   selectedMonth: string;
   selectedMonthShort: string;
   selectedMonthNumber: number;
@@ -24,7 +26,7 @@ export class CalendarComponent implements OnInit{
   selectedTrainerFullInfo: Trainer;
   isCalendarLoaded: boolean = false;
 
-  constructor(private trainerService: TrainerService, private reservationService: ReservationService) {
+  constructor(private trainerService: TrainerService, private reservationService: ReservationService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -92,10 +94,28 @@ export class CalendarComponent implements OnInit{
   private setAvailabilityForEachDay(reservationsByDate: object) {
     Object.entries(reservationsByDate).forEach(([date, nrOfReservations]) => {
       const index = +date.split('-')[0] - 1;
-      if (nrOfReservations === this.trainerService.getMaxReservationSlotsForTrainer(this.selectedTrainerFullInfo)) {
+      const maxReservationSlotsForTrainer = this.trainerService.getMaxReservationSlotsForTrainer(this.selectedTrainerFullInfo);
+      if (nrOfReservations === maxReservationSlotsForTrainer) {
         this.entries[index].status = CalendarEntryStatus.FULL;
+      } else if (nrOfReservations >= maxReservationSlotsForTrainer/2) {
+        this.entries[index].status = CalendarEntryStatus.BUSY;
       }
     });
     this.isCalendarLoaded = true;
+  }
+
+  onCalendarEntryClick(entry: CalendarEntry, day: number) {
+    if (entry.status === CalendarEntryStatus.FULL) {
+      return;
+    }
+    this.router.navigate(["/calendar/addReservation"], {
+      queryParams: {
+        day: day,
+        month: this.selectedMonthNumber,
+        year: this.selectedYear,
+        trainerName: this.selectedTrainer.fullName,
+        trainerUsername: this.selectedTrainer.username
+      }
+    })
   }
 }

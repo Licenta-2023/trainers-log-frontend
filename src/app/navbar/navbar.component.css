@@ -1,6 +1,5 @@
 .navbar {
   width: 100%;
-  position: absolute;
 }
 .nav-item.nav-link.active  {
   background: #5c5e60;

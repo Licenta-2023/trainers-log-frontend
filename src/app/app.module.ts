@@ -14,6 +14,13 @@ import {AuthInterceptor} from "./auth/auth.interceptor";
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarEntryComponent } from './calendar/calendar-entry/calendar-entry.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatInputModule} from "@angular/material/input";
+import { AddReservationComponent } from './reservation/add-reservation/add-reservation.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +31,8 @@ import { CalendarEntryComponent } from './calendar/calendar-entry/calendar-entry
     NavbarComponent,
     UsersListComponent,
     CalendarComponent,
-    CalendarEntryComponent
+    CalendarEntryComponent,
+    AddReservationComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +40,14 @@ import { CalendarEntryComponent } from './calendar/calendar-entry/calendar-entry
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatInputModule,
+
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

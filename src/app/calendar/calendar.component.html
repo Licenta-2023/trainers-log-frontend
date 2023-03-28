@@ -12,7 +12,12 @@
       </select>
     </div>
     <div class="calendar" *ngIf="selectedTrainer.username && isCalendarLoaded">
-      <app-calendar-entry class="calendar-entry" *ngFor="let entry of entries" [date]="entry.date" [ngClass]="entry.status === 'FULL' ? 'full' : 'available'"></app-calendar-entry>
+      <app-calendar-entry
+        class="calendar-entry"
+        *ngFor="let entry of entries; let i = index" [date]="entry.date"
+        [ngClass]="entry.status"
+        (click)="onCalendarEntryClick(entry, i + 1)"
+      ></app-calendar-entry>
     </div>
     <br>
     <br>
