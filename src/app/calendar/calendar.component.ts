@@ -14,7 +14,6 @@ import {Router} from "@angular/router";
 export class CalendarComponent implements OnInit{
 
   selectedDate: Moment;
-  selectedDay: string;
   selectedMonth: string;
   selectedMonthShort: string;
   selectedMonthNumber: number;
@@ -23,6 +22,7 @@ export class CalendarComponent implements OnInit{
 
   trainers: TrainerFullNameAndUsername[] = [];
   selectedTrainer: TrainerFullNameAndUsername = {} as TrainerFullNameAndUsername;
+  selectedTrainerUsername: string = "";
   selectedTrainerFullInfo: Trainer;
   isCalendarLoaded: boolean = false;
 
@@ -31,8 +31,8 @@ export class CalendarComponent implements OnInit{
 
   ngOnInit(): void {
     this.selectedDate = moment();
-    this.loadTrainers();
     this.calculateDateVariables();
+    this.loadTrainers();
   }
 
   calculateDateVariables() {
@@ -43,7 +43,6 @@ export class CalendarComponent implements OnInit{
     this.entries = Array(this.selectedDate.daysInMonth()).fill({}).map((elem, index) => {
       return { date: `${index + 1} - ${this.selectedMonthShort}`, status: CalendarEntryStatus.AVAILABLE};
     });
-    console.log(this.selectedTrainer);
   }
 
   onDecrementMonth() {
@@ -63,17 +62,20 @@ export class CalendarComponent implements OnInit{
   }
 
   onTrainerChange() {
+    this.selectedTrainer = this.trainers.find(trainer => trainer.username === this.selectedTrainerUsername);
+    localStorage.setItem('lastSelectedTrainer', JSON.stringify(this.selectedTrainer));
     this.loadTrainerFullInfo();
   }
 
   private loadTrainers() {
     this.trainerService.getTrainersFullnameAndUsername().subscribe(data => {
       this.trainers.push(...data);
+      this.loadLastSelectedTrainer();
     })
   }
 
   private loadSelectedTrainerCalendarForSelectedMonth() {
-    this.reservationService.getTrainerReservationsByMonth(this.selectedTrainer.username, this.selectedYear, this.selectedMonthNumber).subscribe(data => {
+    this.reservationService.getTrainerReservationsByYearAndMonth(this.selectedTrainer.username, this.selectedYear, this.selectedMonthNumber).subscribe(data => {
       console.log(data);
       const reservationsByDate = data.reduce((acc, reservation) => {
         const date = reservation.timeIntervalBegin.split(' ')[0];
@@ -113,9 +115,22 @@ export class CalendarComponent implements OnInit{
         day: day,
         month: this.selectedMonthNumber,
         year: this.selectedYear,
-        trainerName: this.selectedTrainer.fullName,
+        trainerFullName: this.selectedTrainer.fullName,
         trainerUsername: this.selectedTrainer.username
       }
     })
+  }
+
+  private loadLastSelectedTrainer() {
+    const lastSelectedTrainerString = localStorage.getItem('lastSelectedTrainer');
+    console.log(this.selectedTrainerUsername)
+    if (lastSelectedTrainerString !== null && lastSelectedTrainerString !== 'undefined') {
+      const lastSelectedTrainer: TrainerFullNameAndUsername = JSON.parse(lastSelectedTrainerString);
+      if (this.trainers.filter(trainer => trainer.username === lastSelectedTrainer.username && trainer.fullName === lastSelectedTrainer.fullName).length > 0) {
+        this.selectedTrainer = lastSelectedTrainer;
+        this.selectedTrainerUsername = this.selectedTrainer.username;
+        this.loadTrainerFullInfo();
+      }
+    }
   }
 }

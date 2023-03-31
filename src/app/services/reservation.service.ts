@@ -9,7 +9,11 @@ import {Reservation} from "../shared/models";
 export class ReservationService {
   constructor(private http: HttpClient) {}
 
-  getTrainerReservationsByMonth(username: string, year: number, month: number) {
+  getTrainerReservationsByYearAndMonth(username: string, year: number, month: number) {
     return this.http.get<Reservation[]>(environment.url + `api/reservation/trainers/${username}/years/${year}/months/${month}`);
+  }
+
+  getTrainerReservationsByYearAndMonthAndDay(username: string, year: number, month: number, day: number) {
+    return this.http.get<Reservation[]>(environment.url + `api/reservation/trainers/${username}/years/${year}/months/${month}/days/${day}`);
   }
 }

@@ -6,9 +6,9 @@
       <div><button class="changeMonthButton" (click)="onIncrementMonth()">&gt;</button></div>
     </div>
     <div>
-      <select name="trainers" id="trainers" [(ngModel)]="selectedTrainer" (change)="onTrainerChange()">
-        <option [value]="selectedTrainer" disabled selected>Select an option</option>
-        <option *ngFor="let trainer of trainers" [ngValue]="trainer">{{ trainer.fullName }}</option>
+      <select name="trainers" id="trainers" [(ngModel)]="selectedTrainerUsername" (change)="onTrainerChange()">
+        <option value="" disabled>Select an option</option>
+        <option *ngFor="let trainer of trainers" [ngValue]="trainer" [value]="trainer.username">{{ trainer.fullName }}</option>
       </select>
     </div>
     <div class="calendar" *ngIf="selectedTrainer.username && isCalendarLoaded">

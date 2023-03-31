@@ -1,0 +1,61 @@
+.bg {
+  /* The image used */
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),url("../../../assets/login-background.jpg");
+  height: 100%;
+
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+.reservations {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 50px auto;
+  background-color: gray;
+  align-items: baseline;
+  justify-content: center;
+  padding: 20px 0;
+  border-radius: 5px;
+  border: 1px solid #38383a;
+}
+
+.reservationButton {
+  width: 30%;
+  margin: 15px;
+  padding: 30px;
+  background-color: #5c5e60;
+  border-color: #38383a;
+}
+
+.reservationButton:hover{
+  background-color: #464748;
+}
+
+.loadButton {
+  background-color: rgb(33, 37, 41);
+  border: rgb(20, 22, 24);
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.loadButton:hover {
+  background-color: rgb(30, 32, 35);
+}
+
+.reservationOptions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@media(max-width: 991px) {
+  .reservationButton {
+    width: 90%;
+    margin: 0.25rem 20px;
+  }
+}
