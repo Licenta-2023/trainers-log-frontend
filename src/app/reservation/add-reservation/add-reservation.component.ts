@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ReservationService} from "../../services/reservation.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import * as moment from "moment";
-import {Trainer, TrainerFullNameAndUsername} from "../../shared/models";
+import {Reservation, ReservationEntry, Trainer, TrainerFullNameAndUsername} from "../../shared/models";
 import {TrainerService} from "../../services/trainer.service";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-add-reservation',
@@ -11,7 +12,7 @@ import {TrainerService} from "../../services/trainer.service";
   styleUrls: ['./add-reservation.component.css']
 })
 export class AddReservationComponent implements OnInit{
-  public hours = [10, 11, 12, 13, 14, 15, 16, 17, 18]
+  public reservationEntries: ReservationEntry[] = [];
   public day: number;
   public month: number;
   public year: number;
@@ -22,7 +23,7 @@ export class AddReservationComponent implements OnInit{
 
   public areReservationsLoading: boolean = true;
 
-  constructor(private reservationService: ReservationService, private route: ActivatedRoute, private router: Router, private trainerService: TrainerService){}
+  constructor(private reservationService: ReservationService, private route: ActivatedRoute, private router: Router, private trainerService: TrainerService, private authService: AuthService){}
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.loadDateInformationFromQueryParams(params);
@@ -50,8 +51,7 @@ export class AddReservationComponent implements OnInit{
 
   private loadTrainerReservation() {
     this.reservationService.getTrainerReservationsByYearAndMonthAndDay(this.trainerInfo.username, this.year, this.month, this.day).subscribe(reservations => {
-      console.log(reservations);
-      //TODO: sync reservations with the ones that come from backend
+      this.populateTheReservationArray(reservations);
     });
   }
 
@@ -60,5 +60,51 @@ export class AddReservationComponent implements OnInit{
       this.trainerFullInfo = data;
       this.loadTrainerReservation();
     })
+  }
+
+  private populateTheReservationArray(reservations: Reservation[]) {
+    const startDate = moment(this.trainerFullInfo.startOfDay, 'HH:mm:ss')
+    const endDate = moment(this.trainerFullInfo.endOfDay, 'HH:mm:ss')
+
+    const groupedReservations = reservations.reduce((acc, reservation) => {
+      const timeIntervalBegin = moment(reservation.timeIntervalBegin.split(' ')[1], "HH:mm:ss").format('HH:mm:ss');
+      const group = acc.get(timeIntervalBegin) || [];
+      group.push(reservation);
+      acc.set(timeIntervalBegin, group);
+      return acc;
+    }, new Map<string, Reservation[]>());
+
+    for (let currentTimeInterval = moment(startDate); currentTimeInterval.isBefore(endDate); currentTimeInterval = moment(currentTimeInterval).add(1, 'hour')) {
+      const currentSlotReservation1 = groupedReservations.get(currentTimeInterval.format("HH:mm:ss"));
+      this.addReservationEntryToArray(currentSlotReservation1, currentTimeInterval, groupedReservations);
+    }
+    console.log(this.reservationEntries)
+  }
+
+  private isReservationFullForGivenTimeSlot(currentTimeInterval: string, reservationsByTimeMap: Map<string, Reservation[]>, totalClientsPerReservation: number) {
+    const reservationsForCurrentTimeInterval = reservationsByTimeMap.get(currentTimeInterval);
+    return !!reservationsForCurrentTimeInterval && reservationsForCurrentTimeInterval.length === totalClientsPerReservation;
+  }
+
+  private addReservationEntryToArray(currentSlotReservation: Reservation[], currentTimeInterval: moment.Moment, groupedReservations: Map<string, Reservation[]>) {
+    let reservationEntry: ReservationEntry;
+    if (currentSlotReservation) {
+      const belongsToCurrentUser = currentSlotReservation.map(reservation => reservation.client).includes(this.authService.getLoggedUsername());
+      reservationEntry = {
+        startTime: moment(currentSlotReservation[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format('HH:mm'),
+        endTime: moment(currentSlotReservation[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").add(1, 'hour').format('HH:mm:ss'),
+        belongsToCurrentUser,
+        isFull: belongsToCurrentUser || this.isReservationFullForGivenTimeSlot(moment(currentSlotReservation[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format("HH:mm:ss"), groupedReservations, this.trainerFullInfo.totalClientsPerReservation)
+      }
+    } else {
+      reservationEntry = {
+        startTime: moment(currentTimeInterval).format("HH:mm"),
+        endTime: moment(currentTimeInterval).add(1, 'hour').format("HH:mm"),
+        belongsToCurrentUser: false,
+        isFull: this.isReservationFullForGivenTimeSlot(moment(currentTimeInterval).format("HH:mm:ss"), groupedReservations, this.trainerFullInfo.totalClientsPerReservation)
+      }
+    }
+
+    this.reservationEntries.push(reservationEntry);
   }
 }

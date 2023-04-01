@@ -48,7 +48,15 @@ export interface CalendarEntry {
 
 export enum ReservationType {
   BLOCKER,
-  TRAINING
+  TRAINING,
+  EMPTY
+}
+
+export interface ReservationEntry {
+  startTime: string;
+  endTime: string;
+  isFull: boolean;
+  belongsToCurrentUser: boolean;
 }
 
 export interface Reservation {

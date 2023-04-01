@@ -59,3 +59,17 @@
     margin: 0.25rem 20px;
   }
 }
+
+.ownReservation, .fullyReserved {
+  cursor: auto;
+  pointer-events: none;
+}
+
+.ownReservation, .ownReservation.fullyReserved {
+  background-color: #32323d;
+}
+
+.fullyReserved:not(.ownReservation) {
+  background-color: #5b1e1e;
+  border: #562d2d 1px solid;
+}

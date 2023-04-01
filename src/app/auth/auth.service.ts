@@ -3,6 +3,7 @@ import {BehaviorSubject} from "rxjs";
 import {LoginUser, RegisterUser, UserData} from "../shared/models";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
+import jwtDecode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,14 @@ export class AuthService {
   logOut() {
     this.clearUserFromLocalStorage();
     this.loggedUserData.next(null);
+  }
+
+  getLoggedUsername() {
+    const userData = this.loggedUserData.getValue();
+    if (userData.access_token) {
+      return jwtDecode<{ sub: string }>(userData.access_token).sub;
+    }
+
+    return '';
   }
 }

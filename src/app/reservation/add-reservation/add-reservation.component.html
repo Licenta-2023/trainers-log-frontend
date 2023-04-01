@@ -5,8 +5,8 @@
       <button class="btn btn-primary loadButton">Load</button>
     </div>
     <div class="reservations">
-      <div class="btn btn-primary reservationButton" *ngFor="let hour of hours">
-        {{hour}}-{{hour+1}}
+      <div class="btn btn-primary reservationButton" [ngClass]="{ownReservation: reservation.belongsToCurrentUser, fullyReserved: reservation.isFull}" *ngFor="let reservation of reservationEntries">
+        {{reservation.startTime}}-{{reservation.endTime}}
       </div>
     </div>
   </div>
