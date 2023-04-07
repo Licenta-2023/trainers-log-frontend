@@ -12,7 +12,7 @@ import {AuthService} from "../../auth/auth.service";
   styleUrls: ['./add-reservation.component.css']
 })
 export class AddReservationComponent implements OnInit{
-  public reservationEntries: ReservationEntry[] = [];
+  public reservationEntries: ReservationEntry[];
   public day: number;
   public month: number;
   public year: number;
@@ -22,6 +22,8 @@ export class AddReservationComponent implements OnInit{
   public trainerFullInfo: Trainer;
 
   public areReservationsLoading: boolean = true;
+
+  private selectedReservation: ReservationEntry;
 
   constructor(private reservationService: ReservationService, private route: ActivatedRoute, private router: Router, private trainerService: TrainerService, private authService: AuthService){}
   ngOnInit() {
@@ -49,7 +51,7 @@ export class AddReservationComponent implements OnInit{
     this.trainerInfo.fullName = params.trainerFullName;
   }
 
-  private loadTrainerReservation() {
+  private loadTrainerReservations() {
     this.reservationService.getTrainerReservationsByYearAndMonthAndDay(this.trainerInfo.username, this.year, this.month, this.day).subscribe(reservations => {
       this.populateTheReservationArray(reservations);
     });
@@ -58,11 +60,12 @@ export class AddReservationComponent implements OnInit{
   private loadTrainer() {
     this.trainerService.getTrainerFullInfo(this.trainerInfo.username).subscribe(data => {
       this.trainerFullInfo = data;
-      this.loadTrainerReservation();
+      this.loadTrainerReservations();
     })
   }
 
   private populateTheReservationArray(reservations: Reservation[]) {
+    this.reservationEntries = []
     const startDate = moment(this.trainerFullInfo.startOfDay, 'HH:mm:ss')
     const endDate = moment(this.trainerFullInfo.endOfDay, 'HH:mm:ss')
 
@@ -106,5 +109,20 @@ export class AddReservationComponent implements OnInit{
     }
 
     this.reservationEntries.push(reservationEntry);
+  }
+
+  public onSlotSelected(reservationEntry: ReservationEntry) {
+    this.selectedReservation = reservationEntry;
+    if(confirm('Please confirm the reservation')) {
+      this.reservationService.makeReservationAsUser(
+        this.authService.getLoggedUsername(),
+        this.trainerInfo.username,
+        `${this.year}-${this.month > 9 ? this.month : '0' + this.month}-${this.day > 9 ? this.day : '0' + this.day}T${reservationEntry.startTime}`,
+      ).subscribe(() => {
+        this.loadTrainerReservations();
+      })
+    } else {
+      this.selectedReservation = null;
+    }
   }
 }

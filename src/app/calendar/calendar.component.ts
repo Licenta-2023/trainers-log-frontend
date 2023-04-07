@@ -71,7 +71,7 @@ export class CalendarComponent implements OnInit{
     this.trainerService.getTrainersFullnameAndUsername().subscribe(data => {
       this.trainers.push(...data);
       this.loadLastSelectedTrainer();
-    })
+    }, error => console.log(error))
   }
 
   private loadSelectedTrainerCalendarForSelectedMonth() {

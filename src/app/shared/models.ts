@@ -47,9 +47,9 @@ export interface CalendarEntry {
 }
 
 export enum ReservationType {
-  BLOCKER,
-  TRAINING,
-  EMPTY
+  BLOCKER = "BLOCKER",
+  TRAINING = "TRAINING",
+  EMPTY = "EMPTY"
 }
 
 export interface ReservationEntry {
