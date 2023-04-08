@@ -5,6 +5,7 @@ import {CalendarEntry, CalendarEntryStatus, Trainer, TrainerFullNameAndUsername}
 import {TrainerService} from "../services/trainer.service";
 import {ReservationService} from "../services/reservation.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../auth/auth.service";
 
 @Component({
   selector: 'app-calendar',
@@ -26,10 +27,14 @@ export class CalendarComponent implements OnInit{
   selectedTrainerFullInfo: Trainer;
   isCalendarLoaded: boolean = false;
 
-  constructor(private trainerService: TrainerService, private reservationService: ReservationService, private router: Router) {
+  isTrainerLogged: boolean;
+
+  constructor(private trainerService: TrainerService, private reservationService: ReservationService, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    this.isTrainerLogged = this.authService.getLoggedUserRoles().some(role => role === "TRAINER");
+    console.log(this.isTrainerLogged);
     this.selectedDate = moment();
     this.calculateDateVariables();
     this.loadTrainers();
@@ -64,13 +69,20 @@ export class CalendarComponent implements OnInit{
   onTrainerChange() {
     this.selectedTrainer = this.trainers.find(trainer => trainer.username === this.selectedTrainerUsername);
     localStorage.setItem('lastSelectedTrainer', JSON.stringify(this.selectedTrainer));
-    this.loadTrainerFullInfo();
+      this.calculateDateVariables();
+      this.loadTrainerFullInfo();
   }
 
   private loadTrainers() {
     this.trainerService.getTrainersFullnameAndUsername().subscribe(data => {
       this.trainers.push(...data);
-      this.loadLastSelectedTrainer();
+      if (this.isTrainerLogged) {
+        this.selectedTrainerUsername = this.authService.getLoggedUsername();
+        this.selectedTrainer = this.trainers.find(trainer => trainer.username === this.selectedTrainerUsername);
+      } else {
+        this.loadLastSelectedTrainer();
+      }
+      this.loadTrainerFullInfo();
     }, error => console.log(error))
   }
 
@@ -104,32 +116,28 @@ export class CalendarComponent implements OnInit{
       }
     });
     this.isCalendarLoaded = true;
+    console.log(this.entries);
   }
 
   onCalendarEntryClick(entry: CalendarEntry, day: number) {
-    if (entry.status === CalendarEntryStatus.FULL) {
-      return;
-    }
     this.router.navigate(["/calendar/addReservation"], {
       queryParams: {
         day: day,
         month: this.selectedMonthNumber,
         year: this.selectedYear,
-        trainerFullName: this.selectedTrainer.fullName,
-        trainerUsername: this.selectedTrainer.username
+        trainerUsername: this.selectedTrainer.username,
+        isTrainerLogged: this.isTrainerLogged
       }
     })
   }
 
   private loadLastSelectedTrainer() {
     const lastSelectedTrainerString = localStorage.getItem('lastSelectedTrainer');
-    console.log(this.selectedTrainerUsername)
     if (lastSelectedTrainerString !== null && lastSelectedTrainerString !== 'undefined') {
       const lastSelectedTrainer: TrainerFullNameAndUsername = JSON.parse(lastSelectedTrainerString);
       if (this.trainers.filter(trainer => trainer.username === lastSelectedTrainer.username && trainer.fullName === lastSelectedTrainer.fullName).length > 0) {
         this.selectedTrainer = lastSelectedTrainer;
         this.selectedTrainerUsername = this.selectedTrainer.username;
-        this.loadTrainerFullInfo();
       }
     }
   }

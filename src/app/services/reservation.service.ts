@@ -17,12 +17,12 @@ export class ReservationService {
     return this.http.get<Reservation[]>(environment.url + `api/reservation/trainers/${username}/years/${year}/months/${month}/days/${day}`);
   }
 
-  makeReservationAsUser(username: string, trainerUsername: string, timeIntervalBegin: string) {
+  makeReservation(username: string, trainerUsername: string, timeIntervalBegin: string, reservationType: ReservationType) {
     return this.http.post(environment.url + 'api/reservation', {
       username,
       trainerUsername,
       timeIntervalBegin,
-      reservationType: ReservationType.TRAINING
+      reservationType
     });
   }
 }

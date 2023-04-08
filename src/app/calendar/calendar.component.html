@@ -5,7 +5,7 @@
       <span>{{selectedMonth}} {{selectedYear}}</span>
       <div><button class="changeMonthButton" (click)="onIncrementMonth()">&gt;</button></div>
     </div>
-    <div>
+    <div *ngIf="!isTrainerLogged">
       <select name="trainers" id="trainers" [(ngModel)]="selectedTrainerUsername" (change)="onTrainerChange()">
         <option value="" disabled>Select an option</option>
         <option *ngFor="let trainer of trainers" [ngValue]="trainer" [value]="trainer.username">{{ trainer.fullName }}</option>

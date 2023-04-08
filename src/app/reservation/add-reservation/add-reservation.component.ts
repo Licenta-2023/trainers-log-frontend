@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ReservationService} from "../../services/reservation.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import * as moment from "moment";
-import {Reservation, ReservationEntry, Trainer, TrainerFullNameAndUsername} from "../../shared/models";
+import {Reservation, ReservationEntry, ReservationType, Trainer} from "../../shared/models";
 import {TrainerService} from "../../services/trainer.service";
 import {AuthService} from "../../auth/auth.service";
 
@@ -18,19 +18,22 @@ export class AddReservationComponent implements OnInit{
   public year: number;
   public selectedDate: string;
 
-  public trainerInfo: TrainerFullNameAndUsername = {} as TrainerFullNameAndUsername;
+  public trainerUsername: string;
   public trainerFullInfo: Trainer;
-
-  public areReservationsLoading: boolean = true;
 
   private selectedReservation: ReservationEntry;
 
   constructor(private reservationService: ReservationService, private route: ActivatedRoute, private router: Router, private trainerService: TrainerService, private authService: AuthService){}
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.loadDateInformationFromQueryParams(params);
-      this.loadTrainerInformationFromQueryParams(params);
-      this.loadTrainer();
+      const loggedUsername = this.authService.getLoggedUsername();
+      if (params.isTrainerLogged === 'true' && params.trainerUsername !== loggedUsername) {
+        this.redirectTrainer(loggedUsername);
+      } else {
+        this.loadDateInformationFromQueryParams(params);
+        this.loadTrainerInformationFromQueryParams(params);
+        this.loadTrainer();
+      }
     });
   }
 
@@ -44,21 +47,20 @@ export class AddReservationComponent implements OnInit{
   }
 
   private loadTrainerInformationFromQueryParams(params: Params) {
-    if (!params.trainerUsername || !params.trainerFullName) {
+    if (!params.trainerUsername) {
       this.router.navigate(['../'], { relativeTo: this.route})
     }
-    this.trainerInfo.username = params.trainerUsername;
-    this.trainerInfo.fullName = params.trainerFullName;
+    this.trainerUsername = params.trainerUsername;
   }
 
   private loadTrainerReservations() {
-    this.reservationService.getTrainerReservationsByYearAndMonthAndDay(this.trainerInfo.username, this.year, this.month, this.day).subscribe(reservations => {
+    this.reservationService.getTrainerReservationsByYearAndMonthAndDay(this.trainerUsername, this.year, this.month, this.day).subscribe(reservations => {
       this.populateTheReservationArray(reservations);
     });
   }
 
   private loadTrainer() {
-    this.trainerService.getTrainerFullInfo(this.trainerInfo.username).subscribe(data => {
+    this.trainerService.getTrainerFullInfo(this.trainerUsername).subscribe(data => {
       this.trainerFullInfo = data;
       this.loadTrainerReservations();
     })
@@ -78,8 +80,8 @@ export class AddReservationComponent implements OnInit{
     }, new Map<string, Reservation[]>());
 
     for (let currentTimeInterval = moment(startDate); currentTimeInterval.isBefore(endDate); currentTimeInterval = moment(currentTimeInterval).add(1, 'hour')) {
-      const currentSlotReservation1 = groupedReservations.get(currentTimeInterval.format("HH:mm:ss"));
-      this.addReservationEntryToArray(currentSlotReservation1, currentTimeInterval, groupedReservations);
+      const currentSlotReservations = groupedReservations.get(currentTimeInterval.format("HH:mm:ss"));
+      this.addReservationEntryToArray(currentSlotReservations, currentTimeInterval, groupedReservations);
     }
     console.log(this.reservationEntries)
   }
@@ -89,15 +91,16 @@ export class AddReservationComponent implements OnInit{
     return !!reservationsForCurrentTimeInterval && reservationsForCurrentTimeInterval.length === totalClientsPerReservation;
   }
 
-  private addReservationEntryToArray(currentSlotReservation: Reservation[], currentTimeInterval: moment.Moment, groupedReservations: Map<string, Reservation[]>) {
+  private addReservationEntryToArray(currentSlotReservations: Reservation[], currentTimeInterval: moment.Moment, groupedReservations: Map<string, Reservation[]>) {
     let reservationEntry: ReservationEntry;
-    if (currentSlotReservation) {
-      const belongsToCurrentUser = currentSlotReservation.map(reservation => reservation.client).includes(this.authService.getLoggedUsername());
+    if (currentSlotReservations) {
+      const belongsToCurrentUser = currentSlotReservations.map(reservation => reservation.client).includes(this.authService.getLoggedUsername());
+      const isBlocker = currentSlotReservations.some(reservation => reservation.reservationType === ReservationType.BLOCKER);
       reservationEntry = {
-        startTime: moment(currentSlotReservation[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format('HH:mm'),
-        endTime: moment(currentSlotReservation[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").add(1, 'hour').format('HH:mm:ss'),
+        startTime: moment(currentSlotReservations[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format('HH:mm'),
+        endTime: moment(currentSlotReservations[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").add(1, 'hour').format('HH:mm:ss'),
         belongsToCurrentUser,
-        isFull: belongsToCurrentUser || this.isReservationFullForGivenTimeSlot(moment(currentSlotReservation[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format("HH:mm:ss"), groupedReservations, this.trainerFullInfo.totalClientsPerReservation)
+        isFull: belongsToCurrentUser || isBlocker || this.isReservationFullForGivenTimeSlot(moment(currentSlotReservations[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format("HH:mm:ss"), groupedReservations, this.trainerFullInfo.totalClientsPerReservation)
       }
     } else {
       reservationEntry = {
@@ -113,16 +116,43 @@ export class AddReservationComponent implements OnInit{
 
   public onSlotSelected(reservationEntry: ReservationEntry) {
     this.selectedReservation = reservationEntry;
+    const isBlocker = this.authService.getLoggedUserRoles().some(role => role === "TRAINER");
     if(confirm('Please confirm the reservation')) {
-      this.reservationService.makeReservationAsUser(
+      this.reservationService.makeReservation(
         this.authService.getLoggedUsername(),
-        this.trainerInfo.username,
+        this.trainerUsername,
         `${this.year}-${this.month > 9 ? this.month : '0' + this.month}-${this.day > 9 ? this.day : '0' + this.day}T${reservationEntry.startTime}`,
+        isBlocker ? ReservationType.BLOCKER : ReservationType.TRAINING
       ).subscribe(() => {
         this.loadTrainerReservations();
       })
     } else {
       this.selectedReservation = null;
     }
+  }
+
+  onLoadNewDate() {
+    const newDay = new Date(this.selectedDate).getDate();
+    const newMonth = new Date(this.selectedDate).getMonth() + 1;
+    const newYear = new Date(this.selectedDate).getFullYear();
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        day: newDay,
+        month: newMonth,
+        year: newYear
+      }
+    })
+  }
+
+  redirectTrainer(trainerUsername: string) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        trainerUsername
+      }
+    })
   }
 }

@@ -70,7 +70,7 @@
 
 .full {
   background-color: red;
-  cursor: default;
+  cursor: pointer;
 }
 
 .busy {

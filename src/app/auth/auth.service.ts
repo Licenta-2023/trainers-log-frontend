@@ -66,4 +66,10 @@ export class AuthService {
 
     return '';
   }
+
+  getLoggedUserRoles() {
+    const userData = this.loggedUserData.getValue();
+
+    return jwtDecode<{ roles: string[] }>(userData.access_token).roles;
+  }
 }
