@@ -60,8 +60,14 @@ export interface ReservationEntry {
 }
 
 export interface Reservation {
-  client: string;
-  trainer: string;
+  client: {
+    username: string;
+    fullName: string;
+  };
+  trainer: {
+    username: string;
+    fullName: string;
+  };
   timeIntervalBegin: string;
   reservationType: ReservationType;
 }
