@@ -1,0 +1,26 @@
+<div class="bg">
+  <div class="container mt-5">
+    <div class="reservationOptions">
+      <input
+        type="date"
+        class="form-control w-50"
+        [(ngModel)]="selectedDate"
+      >
+      <button
+        class="btn btn-primary loadButton mx-2"
+        (click)="onLoadNewDate()"
+      >Load</button>
+    </div>
+    <div class="reservations">
+      <div
+        class="btn btn-primary reservationButton"
+        [ngClass]="{ownReservation: reservationEntry.belongsToCurrentUser, fullyReserved: reservationEntry.isFull}"
+        *ngFor="let reservationEntry of reservationEntries"
+        (click)="onSlotSelected(reservationEntry)"
+      >
+        {{reservationEntry.startTime}}-{{reservationEntry.endTime}}
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

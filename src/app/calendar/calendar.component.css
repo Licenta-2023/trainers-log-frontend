@@ -1,0 +1,119 @@
+.bg {
+  /* The image used */
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),url("../../assets/login-background.jpg");
+  height: 100%;
+
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 50px auto;
+  background-color: gray;
+  align-items: baseline;
+  justify-content: center;
+  padding: 20px 0;
+  border-radius: 5px;
+}
+
+.calendar-entry {
+  width: 13%;
+  padding: 35px 0;
+  background-color: white;
+  border: 1px solid black;
+  margin: 3px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .calendar{
+    width: 75%;
+  }
+  .calendar-entry {
+    width: 80%;
+  }
+
+  .reservation-modal {
+    width: 50%
+  }
+}
+
+.dateInfo {
+  color: lightgray;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 4vw;
+  width: 50%;
+  margin: 10px auto;
+  background: rgba(0,0,0,0.7);
+  border-radius: 10px;
+}
+
+.changeMonthButton {
+  background: transparent;
+  border: transparent;
+  color: lightgray;
+}
+
+.changeMonthButton:hover {
+  color: #32323d;
+}
+
+.full {
+  background-color: red;
+  cursor: pointer;
+}
+
+.busy {
+  background-color: orange;
+  cursor: pointer;
+}
+
+.available {
+  background-color: lawngreen;
+  cursor: pointer;
+}
+
+p {
+  font-family: Lato, serif;
+}
+
+dialog {
+  background-color: #5c5e60;
+  color: white;
+  border-color: transparent;
+  overflow: hidden;
+  border-radius: 20px;
+  height: 20%;
+  width: 30%;
+}
+
+dialog div {
+  margin: 10px;
+}
+
+dialog::backdrop {
+  background: rgba(0,0,0, 0.7);
+}
+
+.reservation-modal {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.reservation-modal-button {
+  margin: 5px;
+}
+

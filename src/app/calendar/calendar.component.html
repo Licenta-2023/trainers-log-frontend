@@ -1,0 +1,26 @@
+<div class="bg">
+  <div class="container vh-100 py-5">
+    <div class="dateInfo">
+      <div><button class="changeMonthButton" (click)="onDecrementMonth()">&lt;</button></div>
+      <span>{{selectedMonth}} {{selectedYear}}</span>
+      <div><button class="changeMonthButton" (click)="onIncrementMonth()">&gt;</button></div>
+    </div>
+    <div *ngIf="!isTrainerLogged">
+      <select name="trainers" id="trainers" [(ngModel)]="selectedTrainerUsername" (change)="onTrainerChange()">
+        <option value="" disabled>Select an option</option>
+        <option *ngFor="let trainer of trainers" [ngValue]="trainer" [value]="trainer.username">{{ trainer.fullName }}</option>
+      </select>
+    </div>
+    <div class="calendar" *ngIf="selectedTrainer.username && isCalendarLoaded">
+      <app-calendar-entry
+        class="calendar-entry"
+        *ngFor="let entry of entries; let i = index" [date]="entry.date"
+        [ngClass]="entry.status"
+        (click)="onCalendarEntryClick(entry, i + 1)"
+      ></app-calendar-entry>
+    </div>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>
