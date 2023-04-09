@@ -1,0 +1,32 @@
+<div class="bg">
+  <div class="container vh-100 py-5">
+    <div class="dateInfo mx-auto">
+      <input type="date" class="dateInput p-2" [(ngModel)]="selectedDate" (change)="onDateChange()">
+    </div>
+    <table class="reservations" *ngIf="!areReservationsLoading">
+      <tr class="reservationsHeader py-2">
+        <th>{{isTrainerLogged ? 'Trainer' : 'Client'}} Name</th>
+        <th>Reservation Time</th>
+        <th>Delete Button</th>
+      </tr>
+      <tr
+        class="reservation py-3"
+        *ngFor="let reservation of reservations; let i = index"
+        [ngClass]="{ blocker: reservation.trainer.username === reservation.client.username}"
+      >
+        <td>{{isTrainerLogged ? reservation.client.fullName : reservation.trainer.fullName}}</td>
+        <td>{{reservation.timeIntervalBegin}}</td>
+        <td>
+          <button
+            class="btn btn-warning border-2"
+            [ngStyle]="{border: '2px solid black'}"
+            (click)="onDeleteReservation(reservation, i)"
+          >Delete</button>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <br>
+    <br>
+  </div>
+</div>

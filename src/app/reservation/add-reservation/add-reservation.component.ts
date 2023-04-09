@@ -83,7 +83,6 @@ export class AddReservationComponent implements OnInit{
       const currentSlotReservations = groupedReservations.get(currentTimeInterval.format("HH:mm:ss"));
       this.addReservationEntryToArray(currentSlotReservations, currentTimeInterval, groupedReservations);
     }
-    console.log(this.reservationEntries)
   }
 
   private isReservationFullForGivenTimeSlot(currentTimeInterval: string, reservationsByTimeMap: Map<string, Reservation[]>, totalClientsPerReservation: number) {
@@ -94,11 +93,11 @@ export class AddReservationComponent implements OnInit{
   private addReservationEntryToArray(currentSlotReservations: Reservation[], currentTimeInterval: moment.Moment, groupedReservations: Map<string, Reservation[]>) {
     let reservationEntry: ReservationEntry;
     if (currentSlotReservations) {
-      const belongsToCurrentUser = currentSlotReservations.map(reservation => reservation.client).includes(this.authService.getLoggedUsername());
+      const belongsToCurrentUser = currentSlotReservations.map(reservation => reservation.client.username).includes(this.authService.getLoggedUsername());
       const isBlocker = currentSlotReservations.some(reservation => reservation.reservationType === ReservationType.BLOCKER);
       reservationEntry = {
         startTime: moment(currentSlotReservations[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format('HH:mm'),
-        endTime: moment(currentSlotReservations[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").add(1, 'hour').format('HH:mm:ss'),
+        endTime: moment(currentSlotReservations[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").add(1, 'hour').format('HH:mm'),
         belongsToCurrentUser,
         isFull: belongsToCurrentUser || isBlocker || this.isReservationFullForGivenTimeSlot(moment(currentSlotReservations[0].timeIntervalBegin.split(' ')[1], "HH:mm:ss").format("HH:mm:ss"), groupedReservations, this.trainerFullInfo.totalClientsPerReservation)
       }

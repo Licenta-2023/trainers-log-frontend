@@ -1,0 +1,87 @@
+.bg {
+  /* The image used */
+  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),url("../../assets/login-background.jpg");
+  height: 100%;
+
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}
+
+.reservations {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 80%;
+  margin: 50px auto;
+  background-color: gray;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.reservation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 80%;
+  background-color: #2f2f2f;
+  color: white;
+  border: 2px solid black;
+  margin: 3px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.reservationsHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 80%;
+  background-color: #ffc107;
+  color: black;
+  border: 2px solid black;
+  margin: 3px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+@media (max-width: 992px) {
+  .reservations{
+    width: 75%;
+  }
+  .reservation {
+    width: 80%;
+  }
+
+  .reservation-modal {
+    width: 50%
+  }
+}
+
+.dateInfo {
+  color: lightgray;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 3vw;
+  width: 50%;
+}
+
+.dateInput {
+  background: gray;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+.blocker {
+  background: #5b1e1e;
+}
+

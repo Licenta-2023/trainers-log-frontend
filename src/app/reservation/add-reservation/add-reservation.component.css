@@ -20,7 +20,7 @@
   justify-content: center;
   padding: 20px 0;
   border-radius: 5px;
-  border: 1px solid #38383a;
+  border: 2px solid black;
 }
 
 .reservationButton {
@@ -28,7 +28,7 @@
   margin: 15px;
   padding: 30px;
   background-color: #5c5e60;
-  border-color: #38383a;
+  border: 2px solid black;
 }
 
 .reservationButton:hover{
@@ -71,5 +71,4 @@
 
 .fullyReserved:not(.ownReservation) {
   background-color: #5b1e1e;
-  border: #562d2d 1px solid;
 }
