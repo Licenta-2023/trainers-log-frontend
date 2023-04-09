@@ -34,7 +34,6 @@ export class CalendarComponent implements OnInit{
 
   ngOnInit(): void {
     this.isTrainerLogged = this.authService.getLoggedUserRoles().some(role => role === "TRAINER");
-    console.log(this.isTrainerLogged);
     this.selectedDate = moment();
     this.calculateDateVariables();
     this.loadTrainers();
@@ -88,7 +87,6 @@ export class CalendarComponent implements OnInit{
 
   private loadSelectedTrainerCalendarForSelectedMonth() {
     this.reservationService.getTrainerReservationsByYearAndMonth(this.selectedTrainer.username, this.selectedYear, this.selectedMonthNumber).subscribe(data => {
-      console.log(data);
       const reservationsByDate = data.reduce((acc, reservation) => {
         const date = reservation.timeIntervalBegin.split(' ')[0];
         acc[date] = acc[date] ? acc[date] + 1 : 1;
@@ -116,7 +114,6 @@ export class CalendarComponent implements OnInit{
       }
     });
     this.isCalendarLoaded = true;
-    console.log(this.entries);
   }
 
   onCalendarEntryClick(entry: CalendarEntry, day: number) {

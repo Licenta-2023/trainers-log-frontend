@@ -5,17 +5,24 @@
     </div>
     <table class="reservations" *ngIf="!areReservationsLoading">
       <tr class="reservationsHeader py-2">
-        <th>Trainer Name</th>
+        <th>{{isTrainerLogged ? 'Trainer' : 'Client'}} Name</th>
         <th>Reservation Time</th>
         <th>Delete Button</th>
       </tr>
       <tr
         class="reservation py-3"
         *ngFor="let reservation of reservations; let i = index"
+        [ngClass]="{ blocker: reservation.trainer.username === reservation.client.username}"
       >
-        <td>{{reservation.trainer.fullName}}</td>
+        <td>{{isTrainerLogged ? reservation.client.fullName : reservation.trainer.fullName}}</td>
         <td>{{reservation.timeIntervalBegin}}</td>
-        <td><button>Delete</button></td>
+        <td>
+          <button
+            class="btn btn-warning border-2"
+            [ngStyle]="{border: '2px solid black'}"
+            (click)="onDeleteReservation(reservation, i)"
+          >Delete</button>
+        </td>
       </tr>
     </table>
     <br>

@@ -29,4 +29,17 @@ export class ReservationService {
       reservationType
     });
   }
+
+  deleteReservation(username: string, trainerUsername: string, timeIntervalBegin: string, reservationType: ReservationType) {
+    const body = {
+      username,
+      trainerUsername,
+      timeIntervalBegin,
+      reservationType
+    };
+    console.log(body);
+    return this.http.delete(environment.url + 'api/reservation', {
+      body
+    });
+  }
 }

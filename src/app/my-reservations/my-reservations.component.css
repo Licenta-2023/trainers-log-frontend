@@ -21,6 +21,7 @@
   justify-content: center;
   padding: 20px 0;
   border-radius: 5px;
+  border: 2px solid black;
 }
 
 .reservation {
@@ -28,11 +29,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-
   width: 80%;
-  /*padding: 35px 0;*/
-  background-color: white;
-  border: 1px solid black;
+  background-color: #2f2f2f;
+  color: white;
+  border: 2px solid black;
   margin: 3px;
   border-radius: 10px;
   text-align: center;
@@ -43,11 +43,10 @@
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-around;
-
   width: 80%;
-  /*padding: 35px 0;*/
-  background-color: white;
-  border: 1px solid black;
+  background-color: #ffc107;
+  color: black;
+  border: 2px solid black;
   margin: 3px;
   border-radius: 10px;
   text-align: center;
@@ -79,6 +78,10 @@
 .dateInput {
   background: gray;
   border-radius: 10px;
-  border: 1px solid black;
+  border: 2px solid black;
+}
+
+.blocker {
+  background: #5b1e1e;
 }
 

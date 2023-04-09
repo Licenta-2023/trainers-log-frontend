@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Reservation} from "../shared/models";
 import {ReservationService} from "../services/reservation.service";
 import {AuthService} from "../auth/auth.service";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-my-reservations',
@@ -16,12 +17,12 @@ export class MyReservationsComponent implements OnInit{
   selectedMonth: number;
   selectedYear: number;
   selectedDate: string;
+  isTrainerLogged: boolean = false;
 
   constructor(private reservationService: ReservationService, private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.areReservationsLoading = false;
     this.initiateDateVariables();
     this.loadUserReservations();
   }
@@ -45,8 +46,41 @@ export class MyReservationsComponent implements OnInit{
   private loadUserReservations() {
     const username = this.authService.getLoggedUsername();
     this.reservations = [];
-    this.reservationService.getUserReservationsByYearAndMonthAndDay(username, this.selectedYear, this.selectedMonth, this.selectedDay).subscribe(reservations => {
-      this.reservations.push(...reservations);
-    });
+    if (this.authService.getLoggedUserRoles().some(role => role === "TRAINER")) {
+      this.isTrainerLogged = true;
+      this.reservationService.getTrainerReservationsByYearAndMonthAndDay(username, this.selectedYear, this.selectedMonth, this.selectedDay).subscribe(reservations => {
+        this.reservations.push(...reservations);
+        this.filterReservationsByDate();
+        this.areReservationsLoading = false;
+      });
+    } else {
+      this.reservationService.getUserReservationsByYearAndMonthAndDay(username, this.selectedYear, this.selectedMonth, this.selectedDay).subscribe(reservations => {
+        this.reservations.push(...reservations);
+        this.filterReservationsByDate();
+        this.areReservationsLoading = false;
+      });
+    }
+  }
+
+  onDeleteReservation(reservation: Reservation, index: number) {
+    if(confirm(`Are you sure you want to delete the reservation for ${reservation.timeIntervalBegin}?`)) {
+      console.log(reservation);
+      this.reservationService.deleteReservation(
+        reservation.client.username,
+        reservation.trainer.username,
+        moment(reservation.timeIntervalBegin, "DD-MM-YYYY hh:mm:ss").format("YYYY-MM-DDTHH:mm"),
+        reservation.reservationType
+      ).subscribe(data => {
+        this.reservations.splice(index, 1);
+      })
+    }
+  }
+
+  filterReservationsByDate() {
+    this.reservations.sort((r1, r2) => {
+      const t1 = new Date(r1.timeIntervalBegin).getTime();
+      const t2 = new Date(r2.timeIntervalBegin).getTime();
+      return t1 - t2;
+    })
   }
 }
