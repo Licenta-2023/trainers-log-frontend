@@ -29,10 +29,10 @@ export class MyReservationsComponent implements OnInit{
 
   private initiateDateVariables() {
     const today = new Date();
-    this.selectedDate = today.toISOString().substring(0, 10);
     this.selectedDay = today.getDate();
     this.selectedMonth = today.getMonth() + 1;
     this.selectedYear = today.getFullYear();
+    this.selectedDate = moment(today).format("YYYY-MM-DD");
   }
 
   onDateChange() {
@@ -46,7 +46,7 @@ export class MyReservationsComponent implements OnInit{
   private loadUserReservations() {
     const username = this.authService.getLoggedUsername();
     this.reservations = [];
-    if (this.authService.getLoggedUserRoles().some(role => role === "TRAINER")) {
+    if (this.authService.isTrainerLogged()) {
       this.isTrainerLogged = true;
       this.reservationService.getTrainerReservationsByYearAndMonthAndDay(username, this.selectedYear, this.selectedMonth, this.selectedDay).subscribe(reservations => {
         this.reservations.push(...reservations);

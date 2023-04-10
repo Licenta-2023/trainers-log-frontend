@@ -72,4 +72,8 @@ export class AuthService {
 
     return jwtDecode<{ roles: string[] }>(userData.access_token).roles;
   }
+
+  isTrainerLogged() {
+    return this.getLoggedUserRoles().some(role => role === 'TRAINER');
+  }
 }

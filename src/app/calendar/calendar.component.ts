@@ -33,7 +33,7 @@ export class CalendarComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.isTrainerLogged = this.authService.getLoggedUserRoles().some(role => role === "TRAINER");
+    this.isTrainerLogged = this.authService.isTrainerLogged();
     this.selectedDate = moment();
     this.calculateDateVariables();
     this.loadTrainers();
