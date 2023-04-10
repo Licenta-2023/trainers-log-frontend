@@ -1,0 +1,87 @@
+<form class="vh-100 py-5 bg" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-90">
+      <div class="col-12 col-md-8 col-lg-12 col-xl-6">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div class="mb-md-5 mt-md-4 pb-5">
+
+              <h2 class="fw-bold mb-2">User Profile</h2>
+              <br>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="form-control form-control-lg"
+                    formControlName="firstName"
+                    [ngClass]="{disabledInput: isFormDisabled}"
+                  />
+                  <div class="text-danger text-start" *ngIf="profileForm.controls.firstName.invalid && profileForm.controls.firstName.dirty">Invalid First Name!</div>
+                </div>
+                <div class="flex-row mx-2">
+                  <label class="form-label p-0 mx-0" for="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    class="form-control form-control-lg"
+                    formControlName="lastName"
+                    [ngClass]="{disabledInput: isFormDisabled}"
+                  />
+                  <div class="text-danger text-start" *ngIf="profileForm.controls.lastName.invalid && profileForm.controls.lastName.dirty">Invalid Last Name!</div>
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control form-control-lg disabledInput"
+                    formControlName="email"
+                  />
+                </div>
+                <div class="flex-row mx-2">
+                  <label class="form-label p-0 mx-0" for="dob">Date of Birth</label>
+                  <input
+                    type="date"
+                    id="dob"
+                    class="form-control form-control-lg"
+                    formControlName="dob"
+                    [ngClass]="{disabledInput: isFormDisabled}"
+                  />
+                  <div class="text-danger text-start" *ngIf="profileForm.controls.dob.invalid && profileForm.controls.dob.dirty">Invalid Date of Birth!</div>
+                </div>
+              </div>
+
+              <!--              <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>-->
+
+              <button
+                class="btn btn-outline-light btn-lg px-5"
+                type="submit"
+                [disabled]="!this.isFormDisabled && this.profileForm.invalid"
+              >
+                {{isFormDisabled ? 'Edit Profile' : 'Save Changes'}}</button>
+
+              <button
+                *ngIf="!this.isFormDisabled"
+                class="btn btn-outline-light btn-lg px-5 m-3"
+                type="button"
+                [disabled]="this.profileForm.invalid"
+                (click)="cancelEdit()"
+              >Cancel Edit</button>
+            </div>
+            <div>
+              <p class=""><a [routerLink]="['/']" class="text-white fs-5 fw-bold">Change password</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

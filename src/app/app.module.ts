@@ -22,6 +22,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatInputModule} from "@angular/material/input";
 import { AddReservationComponent } from './reservation/add-reservation/add-reservation.component';
 import { MyReservationsComponent } from './my-reservations/my-reservations.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MyReservationsComponent } from './my-reservations/my-reservations.compo
     CalendarEntryComponent,
     AddReservationComponent,
     MyReservationsComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

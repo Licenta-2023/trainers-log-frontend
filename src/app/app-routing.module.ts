@@ -8,6 +8,7 @@ import {AuthGuard} from "./auth/auth.guard";
 import {CalendarComponent} from "./calendar/calendar.component";
 import {AddReservationComponent} from "./reservation/add-reservation/add-reservation.component";
 import {MyReservationsComponent} from "./my-reservations/my-reservations.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent, pathMatch: 'full'},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard]},
   {path: 'calendar/addReservation', component: AddReservationComponent, canActivate: [AuthGuard]},
   {path: 'my-reservations', component: MyReservationsComponent, canActivate: [AuthGuard]},
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
