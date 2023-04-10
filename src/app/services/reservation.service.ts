@@ -37,7 +37,6 @@ export class ReservationService {
       timeIntervalBegin,
       reservationType
     };
-    console.log(body);
     return this.http.delete(environment.url + 'api/reservation', {
       body
     });

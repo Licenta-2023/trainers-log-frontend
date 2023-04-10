@@ -71,3 +71,9 @@ export interface Reservation {
   timeIntervalBegin: string;
   reservationType: ReservationType;
 }
+
+export interface PatchUserRequestBody {
+  firstName?: string,
+  lastName?: string,
+  dob?: string,
+}

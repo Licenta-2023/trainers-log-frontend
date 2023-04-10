@@ -64,7 +64,6 @@ export class MyReservationsComponent implements OnInit{
 
   onDeleteReservation(reservation: Reservation, index: number) {
     if(confirm(`Are you sure you want to delete the reservation for ${reservation.timeIntervalBegin}?`)) {
-      console.log(reservation);
       this.reservationService.deleteReservation(
         reservation.client.username,
         reservation.trainer.username,

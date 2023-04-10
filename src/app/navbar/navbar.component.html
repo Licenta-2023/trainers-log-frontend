@@ -37,14 +37,19 @@
           class="nav-item nav-link"
           routerLinkActive="active"
           *ngIf="!isLogged"
-          [routerLink]="['/log-in']"
-          (click)="isMenuCollapsed = true">Login</a>
+          [routerLink]="['/log-in']">Login</a>
         <a
           class="nav-item nav-link"
           routerLinkActive="active"
           *ngIf="!isLogged"
           [routerLink]="['/register']"
           (click)="isMenuCollapsed = true">Register</a>
+        <a
+          class="nav-item nav-link"
+          *ngIf="isLogged"
+          [routerLink]="['/profile']"
+          (click)="isMenuCollapsed = true"
+          [style]="{cursor: 'pointer'}">Profile</a>
         <a
           class="nav-item nav-link"
           *ngIf="isLogged"
