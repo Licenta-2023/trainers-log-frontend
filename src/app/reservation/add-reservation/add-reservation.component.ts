@@ -87,7 +87,9 @@ export class AddReservationComponent implements OnInit{
 
   private isReservationFullForGivenTimeSlot(currentTimeInterval: string, reservationsByTimeMap: Map<string, Reservation[]>, totalClientsPerReservation: number) {
     const reservationsForCurrentTimeInterval = reservationsByTimeMap.get(currentTimeInterval);
-    return !!reservationsForCurrentTimeInterval && reservationsForCurrentTimeInterval.length === totalClientsPerReservation;
+
+    return !!reservationsForCurrentTimeInterval &&
+      (reservationsForCurrentTimeInterval.length === totalClientsPerReservation || this.disableBlockerIfTrainerAndReservationExists(reservationsForCurrentTimeInterval.length));
   }
 
   private addReservationEntryToArray(currentSlotReservations: Reservation[], currentTimeInterval: moment.Moment, groupedReservations: Map<string, Reservation[]>) {
@@ -115,7 +117,7 @@ export class AddReservationComponent implements OnInit{
 
   public onSlotSelected(reservationEntry: ReservationEntry) {
     this.selectedReservation = reservationEntry;
-    const isBlocker = this.authService.getLoggedUserRoles().some(role => role === "TRAINER");
+    const isBlocker = this.authService.getLoggedUserRoles();
     if(confirm('Please confirm the reservation')) {
       this.reservationService.makeReservation(
         this.authService.getLoggedUsername(),
@@ -153,5 +155,10 @@ export class AddReservationComponent implements OnInit{
         trainerUsername
       }
     })
+  }
+
+  private disableBlockerIfTrainerAndReservationExists(length: number) {
+    const isTrainerLogged = this.authService.isTrainerLogged();
+    return isTrainerLogged && length > 0;
   }
 }
