@@ -28,8 +28,8 @@
         <a
           class="nav-item nav-link"
           routerLinkActive="active"
-          *ngIf="isLogged"
-          [routerLink]="['/users']"
+          *ngIf="isLogged && isAdminLogged()"
+          [routerLink]="['/admin']"
           (click)="isMenuCollapsed = true">Users</a>
       </div>
       <div class="navbar-nav ms-auto">

@@ -33,6 +33,7 @@ export interface User {
   firstName: string;
   lastName: string;
   dob: Date;
+  roles: UserRoles[];
 }
 
 export enum CalendarEntryStatus {
@@ -76,4 +77,10 @@ export interface PatchUserRequestBody {
   firstName?: string,
   lastName?: string,
   dob?: string,
+}
+
+export enum UserRoles {
+  ADMIN="ADMIN",
+  TRAINER = "TRAINER",
+  USER="USER"
 }
