@@ -29,6 +29,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatSortModule} from "@angular/material/sort";
 import {MatButtonModule} from "@angular/material/button";
+import { AdminEditUserComponent } from './admin-dashboard/admin-edit-user/admin-edit-user.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 
 @NgModule({
   declarations: [
@@ -44,6 +47,7 @@ import {MatButtonModule} from "@angular/material/button";
     ProfileComponent,
     AdminDashboardComponent,
     UsersListComponent,
+    AdminEditUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,9 @@ import {MatButtonModule} from "@angular/material/button";
     MatPaginatorModule,
     BrowserAnimationsModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatLegacyChipsModule
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

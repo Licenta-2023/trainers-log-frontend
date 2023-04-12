@@ -77,6 +77,8 @@ export interface PatchUserRequestBody {
   firstName?: string,
   lastName?: string,
   dob?: string,
+
+  newRoles: UserRoles[]
 }
 
 export enum UserRoles {

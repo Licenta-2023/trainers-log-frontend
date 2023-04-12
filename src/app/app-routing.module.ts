@@ -10,6 +10,7 @@ import {MyReservationsComponent} from "./my-reservations/my-reservations.compone
 import {ProfileComponent} from "./profile/profile.component";
 import {AdminAuthGuard} from "./auth/admin-auth.guard";
 import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.component";
+import {AdminEditUserComponent} from "./admin-dashboard/admin-edit-user/admin-edit-user.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent, pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'my-reservations', component: MyReservationsComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminAuthGuard]},
+  {path: 'admin/edit', component: AdminEditUserComponent, canActivate: [AuthGuard, AdminAuthGuard]},
 ];
 
 @NgModule({

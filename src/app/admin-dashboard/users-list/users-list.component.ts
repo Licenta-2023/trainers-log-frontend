@@ -46,4 +46,8 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       this.userDataSource.paginator.firstPage();
     }
   }
+
+  onClick(element: User) {
+    console.log(element);
+  }
 }

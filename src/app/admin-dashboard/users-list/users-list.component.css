@@ -6,7 +6,6 @@
 
 .table-header {
   min-height: 64px;
-  padding: 8px 24px 0;
 }
 
 .mat-form-field {
@@ -19,10 +18,6 @@
   max-height: 500px;
 }
 
-.noShadow{
+.noShadow {
   box-shadow: none !important;
-}
-
-.big {
-  overflow-x: auto !important;
 }

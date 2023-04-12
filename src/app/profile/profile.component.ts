@@ -51,6 +51,7 @@ export class ProfileComponent {
         firstName: this.profileForm.value.firstName,
         lastName: this.profileForm.value.lastName,
         dob: moment(this.profileForm.value.dob, "YYYY-MM-DD").format("DD-MM-YYYY"),
+        newRoles: [],
       }).subscribe(() => {
         this.initForm();
       });

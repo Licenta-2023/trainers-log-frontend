@@ -1,5 +1,5 @@
-<div class="table-header">
-  <mat-form-field>
+<div class="table-header container pt-5">
+  <mat-form-field [ngStyle]="{width: '50%'}">
     <input matInput (keyup)="applyFilter($event.target)" placeholder="Filter">
   </mat-form-field>
 </div>
@@ -40,16 +40,16 @@
     </mat-row>
 
     <ng-container matColumnDef="edit">
-      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button mat-fab color="primary" class="shadow-none">
+        <button mat-fab color="primary" class="shadow-none" [routerLink]="['./edit']" [queryParams]="{username: element.username}">
           <mat-icon>edit</mat-icon>
         </button>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="delete">
-      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <button mat-fab color="warn" class="m-2 fs-1 shadow-none">
           <mat-icon>delete</mat-icon>
@@ -58,6 +58,6 @@
     </ng-container>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" class="border-top"></mat-paginator>
 </div>
 </div>
