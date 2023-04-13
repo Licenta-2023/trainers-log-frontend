@@ -9,7 +9,6 @@ import { RegisterComponent } from './register/register.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { NavbarComponent } from './navbar/navbar.component';
-import { UsersListComponent } from './users-list/users-list.component';
 import {AuthInterceptor} from "./auth/auth.interceptor";
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import { CalendarComponent } from './calendar/calendar.component';
@@ -23,6 +22,16 @@ import {MatInputModule} from "@angular/material/input";
 import { AddReservationComponent } from './reservation/add-reservation/add-reservation.component';
 import { MyReservationsComponent } from './my-reservations/my-reservations.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { UsersListComponent } from './admin-dashboard/users-list/users-list.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatSortModule} from "@angular/material/sort";
+import {MatButtonModule} from "@angular/material/button";
+import { AdminEditUserComponent } from './admin-dashboard/admin-edit-user/admin-edit-user.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 
 @NgModule({
   declarations: [
@@ -31,12 +40,14 @@ import { ProfileComponent } from './profile/profile.component';
     LogInComponent,
     RegisterComponent,
     NavbarComponent,
-    UsersListComponent,
     CalendarComponent,
     CalendarEntryComponent,
     AddReservationComponent,
     MyReservationsComponent,
     ProfileComponent,
+    AdminDashboardComponent,
+    UsersListComponent,
+    AdminEditUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +62,13 @@ import { ProfileComponent } from './profile/profile.component';
     MatIconModule,
     MatToolbarModule,
     MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+    MatSortModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatLegacyChipsModule
 
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

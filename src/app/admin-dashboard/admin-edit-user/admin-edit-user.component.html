@@ -1,0 +1,100 @@
+<form class="vh-100 py-5 bg" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-90">
+      <div class="col-12 col-md-8 col-lg-12 col-xl-6">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div class="mb-md-5 mt-md-4 pb-5">
+
+              <h2 class="fw-bold mb-2">Edit User</h2>
+              <br>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="form-control form-control-lg"
+                    formControlName="firstName"
+                  />
+                  <div class="text-danger text-start" *ngIf="profileForm.controls.firstName.invalid && profileForm.controls.firstName.dirty">Invalid First Name!</div>
+                </div>
+                <div class="flex-row mx-2">
+                  <label class="form-label p-0 mx-0" for="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    class="form-control form-control-lg"
+                    formControlName="lastName"
+                  />
+                  <div class="text-danger text-start" *ngIf="profileForm.controls.lastName.invalid && profileForm.controls.lastName.dirty">Invalid Last Name!</div>
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control form-control-lg disabledInput"
+                    formControlName="email"
+                  />
+                </div>
+                <div class="flex-row mx-2">
+                  <label class="form-label p-0 mx-0" for="dob">Date of Birth</label>
+                  <input
+                    type="date"
+                    id="dob"
+                    class="form-control form-control-lg"
+                    formControlName="dob"
+                  />
+                  <div class="text-danger text-start" *ngIf="profileForm.controls.dob.invalid && profileForm.controls.dob.dirty">Invalid Date of Birth!</div>
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row">
+                <mat-form-field class="w-100">
+                  <mat-label>Select Category:</mat-label>
+                  <mat-select [formControl]="userRolesControl" multiple>
+
+                    <mat-select-trigger>
+                      <mat-chip-list>
+                        <mat-chip *ngFor="let category of userRolesControl.value"
+                                  [removable]="true" (removed)="onRoleRemove(category)" color="accent" selected>
+                          {{ category }}
+                          <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                      </mat-chip-list>
+                    </mat-select-trigger>
+
+                    <mat-option *ngFor="let category of roles" [value]="category">
+                      {{ category }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+
+              <button
+                class="btn btn-outline-light btn-lg px-5"
+                type="submit"
+                [disabled]="(!this.profileForm.dirty || this.profileForm.invalid) && (!this.userRolesControl.dirty || this.userRolesControl.invalid)"
+              >
+                Save Changes</button>
+
+              <button
+                class="btn btn-outline-light btn-lg px-5 m-3"
+                type="button"
+                (click)="cancelEdit()"
+              >Cancel Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

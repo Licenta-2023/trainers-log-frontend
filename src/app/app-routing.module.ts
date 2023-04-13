@@ -3,22 +3,25 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomePageComponent} from "./home-page/home-page.component";
 import {RegisterComponent} from "./register/register.component";
 import {LogInComponent} from "./log-in/log-in.component";
-import {UsersListComponent} from "./users-list/users-list.component";
 import {AuthGuard} from "./auth/auth.guard";
 import {CalendarComponent} from "./calendar/calendar.component";
 import {AddReservationComponent} from "./reservation/add-reservation/add-reservation.component";
 import {MyReservationsComponent} from "./my-reservations/my-reservations.component";
 import {ProfileComponent} from "./profile/profile.component";
+import {AdminAuthGuard} from "./auth/admin-auth.guard";
+import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.component";
+import {AdminEditUserComponent} from "./admin-dashboard/admin-edit-user/admin-edit-user.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent, pathMatch: 'full'},
   {path: 'register', component: RegisterComponent},
   {path: 'log-in', component: LogInComponent},
-  {path: 'users', component: UsersListComponent, canActivate: [AuthGuard]},
   {path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard]},
   {path: 'calendar/addReservation', component: AddReservationComponent, canActivate: [AuthGuard]},
   {path: 'my-reservations', component: MyReservationsComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminAuthGuard]},
+  {path: 'admin/edit', component: AdminEditUserComponent, canActivate: [AuthGuard, AdminAuthGuard]},
 ];
 
 @NgModule({

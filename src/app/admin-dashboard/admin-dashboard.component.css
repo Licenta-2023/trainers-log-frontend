@@ -1,0 +1,11 @@
+.bg {
+  /* The image used */
+  background-image: linear-gradient(rgba(21, 21, 23, 0.8), rgba(31, 31, 44, 0.9));
+  height: 100%;
+
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: auto;
+}

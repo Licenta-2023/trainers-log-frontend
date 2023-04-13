@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {LoginUser, RegisterUser, UserData} from "../shared/models";
+import {LoginUser, RegisterUser, UserData, UserRoles} from "../shared/models";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import jwtDecode from "jwt-decode";
@@ -74,6 +74,10 @@ export class AuthService {
   }
 
   isTrainerLogged() {
-    return this.getLoggedUserRoles().some(role => role === 'TRAINER');
+    return this.getLoggedUserRoles().some(role => role === UserRoles.TRAINER);
+  }
+
+  isAdminLogged() {
+    return this.getLoggedUserRoles().some(role => role === UserRoles.ADMIN);
   }
 }
