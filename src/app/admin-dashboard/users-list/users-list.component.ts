@@ -4,6 +4,7 @@ import {UserService} from "../../services/user.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-users-list',
@@ -18,7 +19,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
 
   }
 
@@ -40,14 +41,18 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter(filterEvent: any) {
-    this.userDataSource.filter = filterEvent.value.trim().toLowerCase(); // Datasource defaults to lowercase matches
+    this.userDataSource.filter = filterEvent.value.trim().toLowerCase();
 
     if (this.userDataSource.paginator) {
       this.userDataSource.paginator.firstPage();
     }
   }
 
-  onClick(element: User) {
-    console.log(element);
+  onDelete(username: string) {
+    if(confirm(`Are you sure you want to delete user ${username}?`)) {
+      this.userService.deleteUser(username).subscribe(() => {
+        this.router.navigate(['./'], {relativeTo: this.route});
+      })
+    }
   }
 }

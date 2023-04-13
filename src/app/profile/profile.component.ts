@@ -60,6 +60,7 @@ export class ProfileComponent {
 
   cancelEdit() {
     this.isFormDisabled = true;
+    this.profileForm.disable();
     this.revertChanges();
   }
 

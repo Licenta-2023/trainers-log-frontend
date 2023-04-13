@@ -27,4 +27,8 @@ export class UserService {
   patchUser(username: string, patchUserRequestBody: PatchUserRequestBody) {
     return this.http.patch(environment.url + `api/user/${username}`, patchUserRequestBody);
   }
+
+  deleteUser(username: string) {
+    return this.http.delete(environment.url + `api/user/${username}`);
+  }
 }
