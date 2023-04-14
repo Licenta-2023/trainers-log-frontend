@@ -32,6 +32,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { AdminEditUserComponent } from './admin-dashboard/admin-edit-user/admin-edit-user.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
+import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
     AdminDashboardComponent,
     UsersListComponent,
     AdminEditUserComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
