@@ -82,4 +82,10 @@ export class MyReservationsComponent implements OnInit{
       return t1 - t2;
     })
   }
+
+  isReservationInPast(reservation: Reservation) {
+    console.log(moment(reservation.timeIntervalBegin).isBefore(moment.now()));
+    console.log(moment(reservation.timeIntervalBegin));
+    return moment(reservation.timeIntervalBegin, "DD-MM-YYYY hh-mm-ss").isBefore(moment.now());
+  }
 }

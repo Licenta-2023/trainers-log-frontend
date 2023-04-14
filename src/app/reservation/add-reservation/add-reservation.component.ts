@@ -111,7 +111,7 @@ export class AddReservationComponent implements OnInit{
         isFull: this.isReservationFullForGivenTimeSlot(moment(currentTimeInterval).format("HH:mm:ss"), groupedReservations, this.trainerFullInfo.totalClientsPerReservation)
       }
     }
-
+    reservationEntry.isFull = moment(`${this.day}-${this.month}-${this.year} ${currentTimeInterval.format('HH:mm')}`, "DD-MM-YYYY HH:mm").isBefore(moment.now());
     this.reservationEntries.push(reservationEntry);
   }
 

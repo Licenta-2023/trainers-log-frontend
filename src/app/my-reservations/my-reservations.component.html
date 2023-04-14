@@ -21,6 +21,7 @@
             class="btn btn-warning border-2"
             [ngStyle]="{border: '2px solid black'}"
             (click)="onDeleteReservation(reservation, i)"
+            [disabled]="isReservationInPast(reservation)"
           >Delete</button>
         </td>
       </tr>
