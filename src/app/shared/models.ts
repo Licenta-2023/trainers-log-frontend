@@ -81,6 +81,11 @@ export interface PatchUserRequestBody {
   newRoles: UserRoles[]
 }
 
+export interface PatchUserPasswordRequestBody {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export enum UserRoles {
   ADMIN="ADMIN",
   TRAINER = "TRAINER",

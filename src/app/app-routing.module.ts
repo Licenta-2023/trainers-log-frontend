@@ -11,6 +11,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {AdminAuthGuard} from "./auth/admin-auth.guard";
 import {AdminDashboardComponent} from "./admin-dashboard/admin-dashboard.component";
 import {AdminEditUserComponent} from "./admin-dashboard/admin-edit-user/admin-edit-user.component";
+import {ChangePasswordComponent} from "./profile/change-password/change-password.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent, pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'calendar/addReservation', component: AddReservationComponent, canActivate: [AuthGuard]},
   {path: 'my-reservations', component: MyReservationsComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'profile/changePassword', component: ChangePasswordComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminAuthGuard]},
   {path: 'admin/edit', component: AdminEditUserComponent, canActivate: [AuthGuard, AdminAuthGuard]},
 ];
