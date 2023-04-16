@@ -91,3 +91,8 @@ export enum UserRoles {
   TRAINER = "TRAINER",
   USER="USER"
 }
+
+export interface ReservationStatistics {
+  name: string;
+  value: number;
+}
