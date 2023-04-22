@@ -33,6 +33,8 @@ import { AdminEditUserComponent } from './admin-dashboard/admin-edit-user/admin-
 import {MatSelectModule} from "@angular/material/select";
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
+import { HomePageChartComponent } from './home-page/home-page-chart/home-page-chart.component';
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
@@ -50,29 +52,31 @@ import { ChangePasswordComponent } from './profile/change-password/change-passwo
     UsersListComponent,
     AdminEditUserComponent,
     ChangePasswordComponent,
+    HomePageChartComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    NgbCollapseModule,
-    MatDialogModule,
-    MatSlideToggleModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    BrowserAnimationsModule,
-    MatSortModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatLegacyChipsModule
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        NgbCollapseModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatTableModule,
+        MatPaginatorModule,
+        BrowserAnimationsModule,
+        MatSortModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatLegacyChipsModule,
+        NgxChartsModule
 
-  ],
+    ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
