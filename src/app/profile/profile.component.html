@@ -46,7 +46,7 @@
                   />
                 </div>
                 <div class="flex-row mx-2">
-                  <label class="form-label p-0 mx-0" for="dob">Date of Birth</label>
+                  <label class="form-label p-0 mx-0" for="dob">Date Of Birth</label>
                   <input
                     type="date"
                     id="dob"
@@ -54,7 +54,44 @@
                     formControlName="dob"
                     [ngClass]="{disabledInput: isFormDisabled}"
                   />
-                  <div class="text-danger text-start" *ngIf="profileForm.controls.dob.invalid && profileForm.controls.dob.dirty">Invalid Date of Birth!</div>
+                  <div class="text-danger text-start" *ngIf="profileForm.controls.dob.invalid && profileForm.controls.dob.dirty">Invalid Date Of Birth!</div>
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row" *ngIf="isTrainer">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="startOfDay">Start Of Day</label>
+                  <input
+                    type="time"
+                    id="startOfDay"
+                    class="form-control form-control-lg"
+                    formControlName="startOfDay"
+                    [ngClass]="{disabledInput: isFormDisabled}"
+                  />
+                </div>
+                <div class="flex-row mx-auto">
+                  <label class="form-label p-0 mx-0" for="endOfDay">End Of Day</label>
+                  <input
+                    type="time"
+                    id="endOfDay"
+                    class="form-control form-control-lg"
+                    formControlName="endOfDay"
+                    [ngClass]="{disabledInput: isFormDisabled}"
+                  />
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row" *ngIf="isTrainer">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="totalClientsPerReservation">Total Clients Per Reservation</label>
+                  <input
+                    type="number"
+                    id="totalClientsPerReservation"
+                    class="form-control form-control-lg"
+                    formControlName="totalClientsPerReservation"
+                    [ngClass]="{disabledInput: isFormDisabled}"
+                    min="1"
+                  />
                 </div>
               </div>
 

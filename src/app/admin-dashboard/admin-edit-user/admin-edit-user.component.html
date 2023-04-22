@@ -55,6 +55,40 @@
                 </div>
               </div>
 
+              <div class="form-outline form-white mb-4 d-flex flex-row" *ngIf="isTrainer">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="startOfDay">Start Of Day</label>
+                  <input
+                    type="time"
+                    id="startOfDay"
+                    class="form-control form-control-lg"
+                    formControlName="startOfDay"
+                  />
+                </div>
+                <div class="flex-row mx-auto">
+                  <label class="form-label p-0 mx-0" for="endOfDay">End Of Day</label>
+                  <input
+                    type="time"
+                    id="endOfDay"
+                    class="form-control form-control-lg"
+                    formControlName="endOfDay"
+                  />
+                </div>
+              </div>
+
+              <div class="form-outline form-white mb-4 d-flex flex-row" *ngIf="isTrainer">
+                <div class="column mx-2">
+                  <label class="form-label p-0 mx-0" for="totalClientsPerReservation">Total Clients Per Reservation</label>
+                  <input
+                    type="number"
+                    id="totalClientsPerReservation"
+                    class="form-control form-control-lg"
+                    formControlName="totalClientsPerReservation"
+                    min="1"
+                  />
+                </div>
+              </div>
+
               <div class="form-outline form-white mb-4 d-flex flex-row">
                 <mat-form-field class="w-100">
                   <mat-label>Select Category:</mat-label>

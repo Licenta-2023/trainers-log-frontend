@@ -77,8 +77,14 @@ export interface PatchUserRequestBody {
   firstName?: string,
   lastName?: string,
   dob?: string,
-
   newRoles: UserRoles[]
+  patchTrainerBody?: PatchTrainerBody
+}
+
+export interface PatchTrainerBody {
+  startOfDay: string;
+  endOfDay: string;
+  totalClientsPerReservation: number
 }
 
 export interface PatchUserPasswordRequestBody {
