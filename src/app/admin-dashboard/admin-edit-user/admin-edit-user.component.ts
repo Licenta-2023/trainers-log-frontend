@@ -19,7 +19,7 @@ export class AdminEditUserComponent implements OnInit{
   usernameToEdit: string;
 
   userRolesControl = new FormControl<UserRoles[]>([], Validators.required);
-  roles: string[] = Object.keys(UserRoles);
+  roles: string[];
   public isTrainer: boolean;
 
   constructor(
@@ -47,12 +47,15 @@ export class AdminEditUserComponent implements OnInit{
       endOfDay: new FormControl(null),
       totalClientsPerReservation: new FormControl(null),
     });
-    this.isTrainer = this.roles.includes(UserRoles.TRAINER);
-    if(this.isTrainer) {
-      this.loadProfileForTrainer();
-    } else {
-      this.loadProfileForUser();
-    }
+    this.userService.getUser(this.usernameToEdit).subscribe(user => {
+      this.roles = user.roles;
+      this.isTrainer = this.roles.includes(UserRoles.TRAINER);
+      if(this.isTrainer) {
+        this.loadProfileForTrainer();
+      } else {
+        this.loadProfileForUser();
+      }
+    });
   }
 
   onSubmit() {
