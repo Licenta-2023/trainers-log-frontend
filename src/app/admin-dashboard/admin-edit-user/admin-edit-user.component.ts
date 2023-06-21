@@ -19,7 +19,7 @@ export class AdminEditUserComponent implements OnInit{
   usernameToEdit: string;
 
   userRolesControl = new FormControl<UserRoles[]>([], Validators.required);
-  roles: string[];
+  roles: string[] = [UserRoles.ADMIN, UserRoles.TRAINER, UserRoles.USER];
   public isTrainer: boolean;
 
   constructor(
@@ -48,8 +48,7 @@ export class AdminEditUserComponent implements OnInit{
       totalClientsPerReservation: new FormControl(null),
     });
     this.userService.getUser(this.usernameToEdit).subscribe(user => {
-      this.roles = user.roles;
-      this.isTrainer = this.roles.includes(UserRoles.TRAINER);
+      this.isTrainer = user.roles.includes(UserRoles.TRAINER);
       if(this.isTrainer) {
         this.loadProfileForTrainer();
       } else {
