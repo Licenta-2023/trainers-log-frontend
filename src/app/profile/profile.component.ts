@@ -61,7 +61,6 @@ export class ProfileComponent {
       }).subscribe(() => {
         this.initForm();
       });
-      console.log(this.profileForm.value);
     }
   }
 

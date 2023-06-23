@@ -37,7 +37,6 @@ export class HomePageChartComponent implements OnInit {
     const lastMonthName = today.format("MMMM");
     this.yAxisLabel = 'Total Reservations for ' + lastMonthName;
     this.reservationService.getReservationsStatistics(currentYear, lastMonth).subscribe(reservationData => {
-      console.log(reservationData);
       this.single = reservationData;
     })
   }
