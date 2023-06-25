@@ -31,12 +31,12 @@ export class HomePageChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    const today = moment().subtract(1, 'month');
+    const today = moment();
     const currentYear = today.year()
-    const lastMonth = today.month() + 2;
-    const lastMonthName = today.format("MMMM");
-    this.yAxisLabel = 'Total Reservations for ' + lastMonthName;
-    this.reservationService.getReservationsStatistics(currentYear, lastMonth).subscribe(reservationData => {
+    const currentMonth = today.month() + 1;
+    const currentMonthName = today.format("MMMM");
+    this.yAxisLabel = 'Total Reservations for ' + currentMonthName;
+    this.reservationService.getReservationsStatistics(currentYear, currentMonth).subscribe(reservationData => {
       this.single = reservationData;
     })
   }
